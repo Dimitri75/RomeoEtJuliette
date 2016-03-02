@@ -3,7 +3,7 @@ package classes.interfaces;
 /**
  * Created by Dimitri on 21/10/2015.
  */
-public interface Location {
+public interface ILocation {
     int getX();
     void setX(int x);
 

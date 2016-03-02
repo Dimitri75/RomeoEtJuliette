@@ -1,13 +1,13 @@
 package classes.graph;
 
-import classes.interfaces.Location;
+import classes.interfaces.ILocation;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dimitri on 21/10/2015.
  */
-public class Vertex implements Location, Comparable<Vertex> {
+public class Vertex implements ILocation, Comparable<Vertex> {
 	int x, y;
 	private Vertex previous;
 	private double minDistance = Double.POSITIVE_INFINITY;

@@ -1,14 +1,14 @@
 package classes;
 
 import classes.enumerations.Image;
-import classes.interfaces.Location;
+import classes.interfaces.ILocation;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 /**
  * Created by Dimitri on 05/11/2015.
  */
-public class MapElement implements Location {
+public class MapElement implements ILocation {
     int x, y;
     private Rectangle shape;
 
