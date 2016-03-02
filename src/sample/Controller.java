@@ -170,7 +170,7 @@ public class Controller {
 
             Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
             Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
-            Vertex destination = graph.getRandomVertex();
+            Vertex destination = getDestination();
 
             romeo.initPath(graph, romeoVertex, destination);
             juliette.initPath(graph, julietteVertex, destination);
@@ -187,11 +187,11 @@ public class Controller {
     }
 
     public void stopMovement() {
-        if (romeoThread != null && romeoThread.isAlive())
+        if (romeoThread != null)
             romeoThread.interrupt();
         romeoThread = null;
 
-        if (julietteThread != null && julietteThread.isAlive())
+        if (julietteThread != null)
             julietteThread.interrupt();
         julietteThread = null;
     }
@@ -216,16 +216,42 @@ public class Controller {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        if (romeo.isActionDone() && juliette.isActionDone()) {
-                            stopMovement();
-
-                            romeo.setActionDone(true);
-                            juliette.setActionDone(true);
+                        if (romeo.isActionDone() && juliette.isActionDone())
                             timer.cancel();
-                        }
+                        else if (romeo.isActionDone() || juliette.isActionDone())
+                            startChasing();
                     }
                 });
             }
         }, 0, 250);
+    }
+
+    public Vertex getDestination(){
+        int x, y;
+        if (romeo.getX() > juliette.getX())
+            x = juliette.getX() + ((romeo.getX() - juliette.getX()) / 2);
+        else
+            x = romeo.getX() + ((juliette.getX() - romeo.getX()) / 2);
+
+        if (romeo.getY() > juliette.getY())
+            y = juliette.getY() + ((romeo.getY() - juliette.getY()) / 2);
+        else
+            y = romeo.getY() + ((juliette.getY() - romeo.getY()) / 2);
+
+        x = x - (x % PACE);
+        y = y - (y % PACE);
+
+        while (!isNotAnObstacle(x, y))
+            x -= PACE;
+
+        return graph.getVertexByLocation(x, y);
+    }
+
+    public boolean isNotAnObstacle(int x, int y){
+        for (MapElement element : obstaclesList){
+            if (element.equals(new MapElement(x, y, PACE)))
+                return false;
+        }
+        return true;
     }
 }

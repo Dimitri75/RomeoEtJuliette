@@ -54,4 +54,15 @@ public class MapElement implements Location {
         this.y = y;
         shape.setY(y);
     }
+
+    @Override
+    public boolean equals(Object other){
+        if (other == null)
+            return false;
+
+        if (getX() == ((MapElement) other).getX() && getY() == ((MapElement) other).getY())
+            return true;
+        else
+            return false;
+    }
 }
