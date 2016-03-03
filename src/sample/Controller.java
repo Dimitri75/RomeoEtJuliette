@@ -22,7 +22,7 @@ public class Controller {
     @FXML
     private Slider slider_size;
     @FXML
-    private Button button_start;
+    private Button button_start, button_start_q0, button_start_q1, button_start_q2;
     @FXML
     private Label label_error;
     @FXML
@@ -30,9 +30,8 @@ public class Controller {
 
     private Integer PACE;
 
-    private Timer julietteTimer, timerQ1, timerQ2;
+    private Timer julietteTimer, timerQ0, timerQ1, timerQ2;
     private AnimationHandler julietteAnimation, romeoAnimation;
-    private Boolean started = false;
     private Graph graph;
     private Character panda, raccoon;
     private Thread romeoThread, julietteThread;
@@ -45,15 +44,24 @@ public class Controller {
     public void start() {
         clearAll();
         initMap();
+        displayButtons(true);
+    }
+
+    @FXML
+    public void start_q0() {
+        displayButtons(false);
+        romeoRunTheShortestPathToJuliette();
     }
 
     @FXML
     public void start_q1() {
+        displayButtons(false);
         romeoAndJulietteFindEachOther();
     }
 
     @FXML
     public void start_q2() {
+        displayButtons(false);
         romeoLooksForJuliette();
     }
 
@@ -74,8 +82,6 @@ public class Controller {
         initObstacles();
         initRomeoAndJuliette();
         initGraph();
-
-        started = true;
     }
 
     public void initObstacles() {
@@ -163,6 +169,22 @@ public class Controller {
         }
     }
 
+    public void romeoRunTheShortestPathToJuliette(){
+        stopMovement();
+        startTimerQ0();
+
+        Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
+        Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
+
+        panda.initPath(graph, romeoVertex, julietteVertex);
+
+        romeoThread = new Thread(panda);
+
+        romeoThread.start();
+
+        animateRomeo();
+    }
+
     public void romeoAndJulietteFindEachOther() {
         try {
             stopMovement();
@@ -221,6 +243,23 @@ public class Controller {
         julietteThread = null;
     }
 
+    public void startTimerQ0() {
+        cancelTimer(timerQ0);
+
+        timerQ0 = new Timer();
+        timerQ0.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (panda.isActionDone())
+                            cancelTimer(timerQ0);
+                    }
+                });
+            }
+        }, 0, 300);
+    }
 
     public void startTimerQ1() {
         cancelTimer(timerQ1);
@@ -269,10 +308,7 @@ public class Controller {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-                        Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
-
-                        if (areVertexesTooClose(romeoVertex, julietteVertex)){
+                        if (areLocationsClose(panda.getLocation(), raccoon.getLocation())){
                             cancelTimer(julietteTimer, timerQ2);
                             romeoThread.interrupt();
                         }
@@ -360,12 +396,12 @@ public class Controller {
         return true;
     }
 
-    public boolean areVertexesTooClose(Vertex vertex1, Vertex vertex2) {
-        if ((vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() + PACE && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() - PACE && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() + PACE) ||
-                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() - PACE)) {
+    public boolean areLocationsClose(Location location1, Location location2) {
+        if ((location1.getX() == location2.getX() && location1.getY() == location2.getY()) ||
+                (location1.getX() == location2.getX() + PACE && location1.getY() == location2.getY()) ||
+                (location1.getX() == location2.getX() - PACE && location1.getY() == location2.getY()) ||
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() + PACE) ||
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - PACE)) {
             return true;
         }
         return false;
@@ -410,4 +446,11 @@ public class Controller {
             }
         }, 0, 150);
     }
+
+    public void displayButtons(boolean bool){
+        button_start_q0.setVisible(bool);
+        button_start_q1.setVisible(bool);
+        button_start_q2.setVisible(bool);
+    }
+
 }

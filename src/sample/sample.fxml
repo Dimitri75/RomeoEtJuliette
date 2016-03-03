@@ -25,12 +25,17 @@
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_q1" onAction="#start_q1"  text="Question 1" textAlignment="CENTER" >
+                        <Button fx:id="button_start_q0" visible="false" onAction="#start_q0"  text="Romeo travels the shortest path to Juliette who doesn't move." textAlignment="CENTER" >
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_q2" onAction="#start_q2"  text="Question 2" textAlignment="CENTER" >
+                        <Button fx:id="button_start_q1" visible="false" onAction="#start_q1"  text="Romeo and Juliette travel to each other." textAlignment="CENTER" >
+                            <HBox.margin>
+                                <Insets left="5.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="button_start_q2" visible="false" onAction="#start_q2"  text="Romeo tries to find Juliette who walks randomly." textAlignment="CENTER" >
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
