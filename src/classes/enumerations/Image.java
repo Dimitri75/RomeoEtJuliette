@@ -4,11 +4,8 @@ package classes.enumerations;
  * Created by Dimitri on 01/11/2015.
  */
 public enum Image {
-    RIGHT_ROMEO("res/images/right_romeo.png"),
-    RIGHT_JULIETTE("res/images/right_juliette.png"),
-
-    LEFT_ROMEO("res/images/left_romeo.png"),
-    LEFT_JULIETTE("res/images/left_juliette.png"),
+    PANDA("res/images/panda.png"),
+    RACCOON("res/images/raccoon.png"),
 
     OBSTACLE("res/images/obstacle.png");
 

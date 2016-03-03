@@ -1,6 +1,6 @@
 package classes.graph;
 
-import classes.MapElement;
+import classes.utils.MapElement;
 import classes.enumerations.MovementSpeed;
 
 import java.util.*;

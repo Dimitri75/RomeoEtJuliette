@@ -1,21 +1,17 @@
 package classes.utils;
 
-import classes.enumerations.Image;
-import classes.enumerations.Position;
+import classes.enumerations.Sprite;
+import classes.list.CircularQueue;
 import javafx.scene.paint.ImagePattern;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.io.File;
+import java.util.AbstractMap;
 
 /**
  * Created by Dimitri on 01/11/2015.
  */
 public class ResourcesUtils {
     public static ResourcesUtils INSTANCE = null;
-
-    private Map<Integer, Image> left_charactersDictionnary;
-    private Map<Integer, Image> right_charactersDictionnary;
 
     public static ResourcesUtils getInstance(){
         if (INSTANCE == null)
@@ -25,28 +21,29 @@ public class ResourcesUtils {
     }
 
     private ResourcesUtils(){
-        left_charactersDictionnary = new HashMap<>();
-        left_charactersDictionnary.put(0, Image.LEFT_ROMEO);
-        left_charactersDictionnary.put(1, Image.LEFT_JULIETTE);
-
-        right_charactersDictionnary = new HashMap<>();
-        right_charactersDictionnary.put(0, Image.RIGHT_ROMEO);
-        right_charactersDictionnary.put(1, Image.RIGHT_JULIETTE);
     }
 
-    public Integer getRandomCharacterIndex(){
-        Random ran = new Random();
-        return ran.nextInt(left_charactersDictionnary.size());
+    public AbstractMap.SimpleEntry<CircularQueue<ImagePattern>, CircularQueue<ImagePattern>> getFrames(Sprite sprite){
+        File spriteDirectory = new File("src", sprite.toString());
+        File leftFrames = new File(spriteDirectory, "LEFT");
+        File rightFrames = new File(spriteDirectory, "RIGHT");
+
+        if (!spriteDirectory.exists() || !leftFrames.exists() || !rightFrames.exists())
+            return null;
+
+        return new AbstractMap.SimpleEntry(getFilledQueue(leftFrames), getFilledQueue(rightFrames));
     }
 
-    public ImagePattern getCharacter(Integer index, Position position){
-        javafx.scene.image.Image image;
 
-        if (position.equals(Position.LEFT))
-            image = new javafx.scene.image.Image(left_charactersDictionnary.get(index).toString());
-        else
-            image = new javafx.scene.image.Image(right_charactersDictionnary.get(index).toString());
+    public CircularQueue<ImagePattern> getFilledQueue(File directory){
+        if (!directory.exists()) return null;
 
-        return new ImagePattern(image);
+        CircularQueue<ImagePattern> circularQueue = new CircularQueue<>(directory.listFiles().length);
+        String path;
+        for (File file : directory.listFiles()){
+            path = file.getPath().replace("src\\", "");
+            circularQueue.push(new ImagePattern(new javafx.scene.image.Image(path)));
+        }
+        return circularQueue;
     }
 }

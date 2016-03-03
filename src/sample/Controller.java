@@ -1,12 +1,12 @@
 package sample;
 
-import classes.Character;
-import classes.MapElement;
+import classes.enumerations.Sprite;
+import classes.utils.*;
 import classes.enumerations.Image;
 import classes.enumerations.Position;
 import classes.graph.Graph;
 import classes.graph.Vertex;
-import classes.utils.Location;
+import classes.utils.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -30,30 +30,52 @@ public class Controller {
 
     private Integer PACE;
 
-    private Timer timer, timer3;
+    private Timer julietteTimer, timerQ1, timerQ2;
+    private AnimationHandler julietteAnimation, romeoAnimation;
     private Boolean started = false;
     private Graph graph;
-    private Character romeo, juliette;
+    private Character panda, raccoon;
     private Thread romeoThread, julietteThread;
     private List<MapElement> obstaclesList = new ArrayList<>();
 
     public Controller() {
-
     }
 
-    public boolean areVertexesTooClose(Vertex vertex1, Vertex vertex2) {
-        if ((vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() + PACE && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() - PACE && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() + PACE) ||
-                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() - PACE) /*||
-                (vertex1.getX() == vertex2.getX() + 2 * PACE && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() - 2 * PACE && vertex1.getY() == vertex2.getY()) ||
-                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() + 2 * PACE) ||
-                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() - 2 * PACE)*/) {
-            return true;
-        }
-        return false;
+    @FXML
+    public void start() {
+        clearAll();
+        initMap();
+    }
+
+    @FXML
+    public void start_q1() {
+        romeoAndJulietteFindEachOther();
+    }
+
+    @FXML
+    public void start_q2() {
+        romeoLooksForJuliette();
+    }
+
+    @FXML
+    void button_start_onKeyEvent(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            clearAll();
+            button_start.fire();
+        } else
+            anchorPane.requestFocus();
+    }
+
+    public void initMap() {
+        slider_size.setFocusTraversable(false);
+        button_start.setFocusTraversable(false);
+        PACE = (slider_size.getValue() < 10) ? 10 : (int) slider_size.getValue();
+
+        initObstacles();
+        initRomeoAndJuliette();
+        initGraph();
+
+        started = true;
     }
 
     public void initObstacles() {
@@ -80,6 +102,18 @@ public class Controller {
         }
     }
 
+    public void initRomeoAndJuliette() {
+        try {
+            panda = new Character(0, 0, PACE, Image.PANDA);
+            raccoon = new Character(0, 0, PACE, Image.RACCOON);
+
+            initCharacter(panda);
+            initCharacter(raccoon);
+        } catch (Exception e) {
+            label_error.setText("Bravo ! Maintenant c'est cassé. :(");
+        }
+    }
+
     public void initCharacter(Character character) {
         Random random = new Random();
 
@@ -96,61 +130,19 @@ public class Controller {
             randX -= randX % PACE;
             randY -= randY % PACE;
         }
+
         character.setX(randX);
         character.setY(randY);
 
         anchorPane.getChildren().add(character.getShape());
     }
 
-    public void initRomeoAndJuliette() {
-        try {
-            romeo = new Character(0, 0, PACE);
-            juliette = new Character(0, 0, PACE);
-
-            initCharacter(romeo);
-            initCharacter(juliette);
-        } catch (Exception e) {
-            label_error.setText("Bravo ! Maintenant c'est cassé. :(");
-        }
-    }
-
     public void initGraph() {
         graph = new Graph((int) anchorPane.getWidth(), (int) anchorPane.getHeight(), obstaclesList, PACE);   // TODO : vérifier ce qui est généré
     }
 
-    @FXML
-    public void start() {
-        clearAll();
-        slider_size.setFocusTraversable(false);
-        button_start.setFocusTraversable(false);
-        PACE = (slider_size.getValue() < 10) ? 10 : (int) slider_size.getValue();
-        initObstacles();
-        initRomeoAndJuliette();
-        initGraph();
-        started = true;
-    }
-
-    @FXML
-    public void start_q1() {
-        romeoAndJulietteFindEachOther();
-    }
-
-    @FXML
-    public void start_q2() {
-        romeoLooksForJuliette();
-    }
-
-    @FXML
-    void button_start_onKeyEvent(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.ENTER)) {
-            clearAll();
-            button_start.fire();
-        } else
-            anchorPane.requestFocus();
-    }
-
     public void clearAll() {
-        if (timer != null)timer.cancel();
+        if (julietteTimer != null) julietteTimer.cancel();
 
         label_error.setText("");
 
@@ -160,14 +152,40 @@ public class Controller {
 
         stopMovement();
 
-        if (romeo != null) {
-            anchorPane.getChildren().remove(romeo.getShape());
-            romeo = null;
+        if (panda != null) {
+            anchorPane.getChildren().remove(panda.getShape());
+            panda = null;
         }
 
-        if (juliette != null) {
-            anchorPane.getChildren().remove(juliette.getShape());
-            juliette = null;
+        if (raccoon != null) {
+            anchorPane.getChildren().remove(raccoon.getShape());
+            raccoon = null;
+        }
+    }
+
+    public void romeoAndJulietteFindEachOther() {
+        try {
+            stopMovement();
+            startTimerQ1();
+
+            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
+            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
+
+            Vertex destination = getDestinationBetweenLocations(panda.getLocation(), raccoon.getLocation());
+
+            panda.initPath(graph, romeoVertex, destination);
+            raccoon.initPath(graph, julietteVertex, destination);
+
+            romeoThread = new Thread(panda);
+            julietteThread = new Thread(raccoon);
+
+            romeoThread.start();
+            julietteThread.start();
+
+            animateJuliette();
+            animateRomeo();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -177,37 +195,17 @@ public class Controller {
             startJulietteTimer();
             startTimerQ2();
 
-            Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
-            Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
+            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
+            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
 
-            romeo.initPath(graph, romeoVertex, julietteVertex);
+            panda.initPath(graph, romeoVertex, julietteVertex);
 
-            romeoThread = new Thread(romeo);
-
-            romeoThread.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void romeoAndJulietteFindEachOther() {
-        try {
-            stopMovement();
-            startTimerQ1();
-
-            Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
-            Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
-            Vertex destination = getDestination();
-
-            romeo.initPath(graph, romeoVertex, destination);
-            juliette.initPath(graph, julietteVertex, destination);
-
-
-            romeoThread = new Thread(romeo);
-            julietteThread = new Thread(juliette);
+            romeoThread = new Thread(panda);
 
             romeoThread.start();
-            julietteThread.start();
+
+            animateJuliette();
+            animateRomeo();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,108 +221,88 @@ public class Controller {
         julietteThread = null;
     }
 
-    public boolean checkIfNoObstacles(int x, int y) {
-        for (MapElement obstacle : obstaclesList)
-            if (obstacle.getX() == x && obstacle.getY() == y ||
-                    x < 0 || y < 0 || x >= anchorPane.getWidth() || y >= anchorPane.getHeight())
-                return false;
-        return true;
-    }
 
     public void startTimerQ1() {
-        if (timer != null) {
-            timer.purge();
-            timer.cancel();
-        }
+        cancelTimer(timerQ1);
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timerQ1 = new Timer();
+        timerQ1.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        if (romeo.isActionDone() && juliette.isActionDone())
-                            timer.cancel();
-                        else if (romeo.isActionDone() || juliette.isActionDone())
+                        if (panda.isActionDone() && raccoon.isActionDone())
+                            cancelTimer(timerQ1);
+                        else if (panda.isActionDone() || raccoon.isActionDone())
                             romeoAndJulietteFindEachOther();
                     }
                 });
             }
-        }, 0, 250);
+        }, 0, 300);
     }
 
     public void startJulietteTimer() {
-        if (timer != null) {
-            timer.purge();
-            timer.cancel();
-        }
+        cancelTimer(julietteTimer);
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        julietteTimer = new Timer();
+        julietteTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        walkRandomly(juliette);
+                        walkRandomly(raccoon);
                     }
                 });
             }
-        }, 0, 200);
+        }, 0, 600);
     }
 
     public void startTimerQ2() {
-        if (timer3 != null) {
-            timer3.purge();
-            timer3.cancel();
-        }
+        cancelTimer(timerQ2);
 
-        timer3 = new Timer();
-        timer3.scheduleAtFixedRate(new TimerTask() {
+        timerQ2 = new Timer();
+        timerQ2.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
-                        Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
+                        Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
+                        Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
 
                         if (areVertexesTooClose(romeoVertex, julietteVertex)){
+                            cancelTimer(julietteTimer, timerQ2);
                             romeoThread.interrupt();
-                            timer3.cancel();
-                            timer.cancel();
                         }
 
-                        if (romeo.isActionDone())
-                            walkRandomly(romeo);
+                        if (panda.isActionDone())
+                            walkRandomly(panda);
                     }
                 });
             }
-        }, 0, 100);
+        }, 0, 300);
     }
 
-    public Vertex getDestination(){
-        int x, y;
-        if (romeo.getX() > juliette.getX())
-            x = juliette.getX() + ((romeo.getX() - juliette.getX()) / 2);
-        else
-            x = romeo.getX() + ((juliette.getX() - romeo.getX()) / 2);
+    public void cancelTimer(Timer... timers){
+        for (Timer timer : timers) {
+            if (timer != null) {
+                timer.purge();
+                timer.cancel();
+            }
+        }
 
-        if (romeo.getY() > juliette.getY())
-            y = juliette.getY() + ((romeo.getY() - juliette.getY()) / 2);
-        else
-            y = romeo.getY() + ((juliette.getY() - romeo.getY()) / 2);
+        if (romeoAnimation != null){
+            romeoAnimation.purge();
+            romeoAnimation.cancel();
+        }
 
-        x = x - (x % PACE);
-        y = y - (y % PACE);
-
-        while (!checkIfNoObstacles(x, y))
-            x -= PACE;
-
-        return graph.getVertexByLocation(x, y);
+        if (julietteAnimation != null){
+            julietteAnimation.purge();
+            julietteAnimation.cancel();
+        }
     }
-
 
     public void walkRandomly(Character character) {
         int x = character.getX();
@@ -344,6 +322,8 @@ public class Controller {
             Location location = movementsDictionnary.get(position);
 
             if (checkIfNoObstacles(location.getX(), location.getY())) {
+
+
                 character.setX(location.getX());
                 character.setY(location.getY());
                 hasMoved = true;
@@ -351,17 +331,83 @@ public class Controller {
         }
     }
 
-    public void romeoLooksForSomething(Vertex destination){
-        if (romeoThread != null)
-            romeoThread.interrupt();
+    public Vertex getDestinationBetweenLocations(Location a, Location b){
+        int x, y;
+        if (a.getX() > b.getX())
+            x = b.getX() + ((a.getX() - b.getX()) / 2);
+        else
+            x = a.getX() + ((b.getX() - a.getX()) / 2);
 
-        if (checkIfNoObstacles(destination.getX(), destination.getY())) {
-            Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
-            romeo.initPath(graph, romeoVertex, destination);
+        if (a.getY() > b.getY())
+            y = b.getY() + ((a.getY() - b.getY()) / 2);
+        else
+            y = a.getY() + ((b.getY() - a.getY()) / 2);
 
-            romeoThread = new Thread(romeo);
+        x = x - (x % PACE);
+        y = y - (y % PACE);
 
-            romeoThread.start();
+        while (!checkIfNoObstacles(x, y))
+            x -= PACE;
+
+        return graph.getVertexByLocation(x, y);
+    }
+
+    public boolean checkIfNoObstacles(int x, int y) {
+        for (MapElement obstacle : obstaclesList)
+            if (obstacle.getX() == x && obstacle.getY() == y ||
+                    x < 0 || y < 0 || x >= anchorPane.getWidth() || y >= anchorPane.getHeight())
+                return false;
+        return true;
+    }
+
+    public boolean areVertexesTooClose(Vertex vertex1, Vertex vertex2) {
+        if ((vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY()) ||
+                (vertex1.getX() == vertex2.getX() + PACE && vertex1.getY() == vertex2.getY()) ||
+                (vertex1.getX() == vertex2.getX() - PACE && vertex1.getY() == vertex2.getY()) ||
+                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() + PACE) ||
+                (vertex1.getX() == vertex2.getX() && vertex1.getY() == vertex2.getY() - PACE)) {
+            return true;
         }
+        return false;
+    }
+
+    public void animateRomeo(){
+        if (romeoAnimation != null) {
+            romeoAnimation.purge();
+            romeoAnimation.cancel();
+        }
+
+        romeoAnimation = new AnimationHandler(panda, Sprite.PANDA_SPRITE);
+        romeoAnimation.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        romeoAnimation.changeFrame();
+                    }
+                });
+            }
+        }, 0, 150);
+    }
+
+    public void animateJuliette(){
+        if (julietteAnimation != null) {
+            julietteAnimation.purge();
+            julietteAnimation.cancel();
+        }
+
+        julietteAnimation = new AnimationHandler(raccoon, Sprite.RACCOON_SPRITE);
+        julietteAnimation.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        julietteAnimation.changeFrame();
+                    }
+                });
+            }
+        }, 0, 150);
     }
 }

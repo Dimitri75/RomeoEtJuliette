@@ -1,9 +1,11 @@
-package classes;
+package classes.utils;
 
 import classes.enumerations.Image;
 import classes.interfaces.ILocation;
+import javafx.animation.TranslateTransition;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 /**
  * Created by Dimitri on 05/11/2015.
@@ -41,7 +43,13 @@ public class MapElement implements ILocation {
     @Override
     public void setX(int x) {
         this.x = x;
-        shape.setX(x);
+
+        TranslateTransition transition = new TranslateTransition();
+        transition.setToX(x);
+
+        transition.setDuration(Duration.millis(300));
+        transition.setNode(getShape());
+        transition.play();
     }
 
     @Override
@@ -52,7 +60,13 @@ public class MapElement implements ILocation {
     @Override
     public void setY(int y) {
         this.y = y;
-        shape.setY(y);
+
+        TranslateTransition transition = new TranslateTransition();
+        transition.setToY(y);
+
+        transition.setDuration(Duration.millis(300));
+        transition.setNode(getShape());
+        transition.play();
     }
 
     @Override

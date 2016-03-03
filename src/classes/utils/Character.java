@@ -1,10 +1,9 @@
-package classes;
+package classes.utils;
 
 import classes.enumerations.Image;
 import classes.enumerations.Position;
 import classes.graph.Graph;
 import classes.graph.Vertex;
-import classes.utils.ResourcesUtils;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -13,25 +12,13 @@ import java.util.List;
  * Created by Dimitri on 21/10/2015.
  */
 public class Character extends MapElement implements Runnable {
-    private int characterImageIndex;
     private Position position;
     private List<Vertex> path;
     private boolean actionDone;
 
-    public Character(int x, int y, int shapeSize) {
-        super(x, y, shapeSize);
-        actionDone = false;
-        characterImageIndex = ResourcesUtils.getInstance().getRandomCharacterIndex();
-
-        position = Position.LEFT;
-        if (characterImageIndex % 2 == 0)
-            position = Position.RIGHT;
-
-        getShape().setFill(ResourcesUtils.getInstance().getCharacter(characterImageIndex, position));
-    }
-
     public Character(int x, int y, int shapeSize, Image image) {
         super(x, y, shapeSize, image);
+        position = Position.RIGHT;
         actionDone = false;
     }
 
@@ -46,11 +33,17 @@ public class Character extends MapElement implements Runnable {
     public void changePosition() {
         if (position.equals(Position.LEFT)) {
             position = Position.RIGHT;
-            getShape().setFill(ResourcesUtils.getInstance().getCharacter(characterImageIndex, position));
         } else {
             position = Position.LEFT;
-            getShape().setFill(ResourcesUtils.getInstance().getCharacter(characterImageIndex, position));
         }
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public Location getLocation(){
+        return new Location(getX(), getY());
     }
 
     public void initPath(Graph graph, Vertex start, Vertex destination) {
@@ -60,19 +53,29 @@ public class Character extends MapElement implements Runnable {
     }
 
     @Override
+    public void setX(int x) {
+        if (x < getX() && position.equals(Position.RIGHT)) {
+            changePosition();
+        } else if (x > getX() && position.equals(Position.LEFT)) {
+            changePosition();
+        }
+
+        super.setX(x);
+    }
+
+    @Override
+    public void setY(int y) {
+        super.setY(y);
+    }
+
+    @Override
     public void run() {
         if (path != null) {
             actionDone = false;
             for (Vertex vertex : path) {
                 if (!actionDone) {
-                    if (vertex.getX() < x && position.equals(Position.RIGHT)) {
-                        changePosition();
-                    } else if (vertex.getX() > x && position.equals(Position.LEFT)) {
-                        changePosition();
-                    }
-
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(300);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         break;
