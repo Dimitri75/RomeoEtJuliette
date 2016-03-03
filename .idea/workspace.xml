@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3$1.class" />
@@ -12,11 +10,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$6$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$6$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$6.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$6.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/sample.fxml" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/sample.fxml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Controller.java" afterPath="$PROJECT_DIR$/src/sample/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/sample.fxml" afterPath="$PROJECT_DIR$/src/sample/sample.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,8 +84,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0889621">
-              <caret line="398" column="24" selection-start-line="398" selection-start-column="19" selection-end-line="398" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.3607908">
+              <caret line="362" column="32" selection-start-line="362" selection-start-column="32" selection-end-line="362" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -856,12 +854,12 @@
       <workItem from="1457012597666" duration="2513000" />
       <workItem from="1457016543505" duration="2594000" />
       <workItem from="1457021243383" duration="11997000" />
-      <workItem from="1457033468316" duration="2613000" />
+      <workItem from="1457033468316" duration="3790000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="156493000" />
+    <option name="totallyTimeSpent" value="157670000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1934,8 +1932,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0889621">
-          <caret line="398" column="24" selection-start-line="398" selection-start-column="19" selection-end-line="398" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.3607908">
+          <caret line="362" column="32" selection-start-line="362" selection-start-column="32" selection-end-line="362" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

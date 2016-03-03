@@ -193,7 +193,7 @@ public class Controller {
             Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
             Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
 
-            Vertex destination = getDestinationBetweenLocations(panda.getLocation(), raccoon.getLocation());
+            Vertex destination = getDestinationBetweenVertexes(romeoVertex, julietteVertex);
 
             panda.initPath(graph, romeoVertex, destination);
             raccoon.initPath(graph, julietteVertex, destination);
@@ -273,8 +273,6 @@ public class Controller {
                     public void run() {
                         if (panda.isActionDone() && raccoon.isActionDone())
                             cancelTimer(timerQ1);
-                        else if (panda.isActionDone() || raccoon.isActionDone())
-                            romeoAndJulietteFindEachOther();
                     }
                 });
             }
@@ -367,25 +365,9 @@ public class Controller {
         }
     }
 
-    public Vertex getDestinationBetweenLocations(Location a, Location b){
-        int x, y;
-        if (a.getX() > b.getX())
-            x = b.getX() + ((a.getX() - b.getX()) / 2);
-        else
-            x = a.getX() + ((b.getX() - a.getX()) / 2);
-
-        if (a.getY() > b.getY())
-            y = b.getY() + ((a.getY() - b.getY()) / 2);
-        else
-            y = a.getY() + ((b.getY() - a.getY()) / 2);
-
-        x = x - (x % PACE);
-        y = y - (y % PACE);
-
-        while (!checkIfNoObstacles(x, y))
-            x -= PACE;
-
-        return graph.getVertexByLocation(x, y);
+    public Vertex getDestinationBetweenVertexes(Vertex v1, Vertex v2){
+        List<Vertex> path = graph.dijkstra(v1, v2);
+        return path.get(path.size() / 2);
     }
 
     public boolean checkIfNoObstacles(int x, int y) {
