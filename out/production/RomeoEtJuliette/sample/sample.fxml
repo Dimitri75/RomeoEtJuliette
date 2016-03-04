@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-    <center>
+   <bottom>
         <SplitPane dividerPositions="0.8753581661891118" orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
             <items>
                 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/food.png')" /> <!--style="-fx-background-color: rgba(159, 33, 34, 0.67);"-->
@@ -17,25 +18,30 @@
                                 <Insets left="5.0" right="15.0" />
                             </HBox.margin>
                         </Slider>
-                        <Label fx:id="label_error" alignment="BOTTOM_CENTER" prefHeight="20.0" textAlignment="CENTER" textFill="white">
-
-                        </Label>
                         <Button fx:id="button_start" onAction="#start" onKeyPressed="#button_start_onKeyEvent" text="Start" textAlignment="CENTER">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_q0" onAction="#start_q0" text="Romeo travels through the shortest path to Juliette who doesn't move." textAlignment="CENTER" visible="false">
+                        <Label fx:id="label_error" alignment="BOTTOM_CENTER" prefHeight="20.0" textAlignment="CENTER" textFill="white">
+
+                        </Label>
+                        <Button fx:id="button_start_simpleDijkstra" onAction="#start_simpleDijkstra" prefHeight="65.0" prefWidth="225.0" text="Romeo travels through the shortest path to Juliette who doesn't move." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_q1" onAction="#start_q1" text="Romeo and Juliette travel to each other." textAlignment="CENTER" visible="false">
+                        <Button fx:id="button_start_dijkstraToEachOther" onAction="#start_dijkstraToEachOther" prefHeight="65.0" prefWidth="225.0" text="Romeo and Juliette travel to each other." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_q2" onAction="#start_q2" text="Romeo tries to find Juliette who walks randomly." textAlignment="CENTER" visible="false">
+                        <Button fx:id="button_start_DFS" onAction="#start_DFS" prefHeight="65.0" prefWidth="225.0" text="Romeo tries to find Juliette who walks randomly (DFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                            <HBox.margin>
+                                <Insets left="5.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="button_start_BFS" onAction="#start_BFS" prefHeight="65.0" prefWidth="225.0" text="Romeo tries to find Juliette who walks randomly (BFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
@@ -44,5 +50,5 @@
                 </HBox>
             </items>
         </SplitPane>
-    </center>
+   </bottom>
 </BorderPane>

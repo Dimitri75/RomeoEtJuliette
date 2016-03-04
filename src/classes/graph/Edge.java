@@ -1,6 +1,6 @@
 package classes.graph;
 
-import classes.enumerations.MovementSpeed;
+import classes.enumerations.EnumGraph;
 
 /**
  * Created by Dimitri on 21/10/2015.
@@ -10,15 +10,15 @@ public class Edge {
 	private Vertex target;
 	private double weight;
 
-	public Edge(Vertex source, Vertex target, MovementSpeed movementSpeed) {
+	public Edge(Vertex source, Vertex target, EnumGraph movementSpeed) {
 		this.source = source;
 		this.target = target;
 
 		switch (movementSpeed) {
-		case NORMAL:
+		case SPEED_NORMAL:
 			this.weight = 1;
 			break;
-		case SLOW:
+		case SPEED_SLOW:
 			this.weight = 2;
 			break;
 		default:

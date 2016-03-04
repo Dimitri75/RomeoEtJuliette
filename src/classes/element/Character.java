@@ -1,7 +1,7 @@
 package classes.element;
 
-import classes.enumerations.Image;
-import classes.enumerations.Position;
+import classes.enumerations.EnumImage;
+import classes.enumerations.EnumPosition;
 import classes.graph.Graph;
 import classes.graph.Vertex;
 import javafx.application.Platform;
@@ -12,13 +12,13 @@ import java.util.List;
  * Created by Dimitri on 21/10/2015.
  */
 public class Character extends MapElement implements Runnable {
-    private Position position;
+    private EnumPosition enumPosition;
     private List<Vertex> path;
     private boolean actionDone;
 
-    public Character(int x, int y, int shapeSize, Image image) {
+    public Character(int x, int y, int shapeSize, EnumImage image) {
         super(x, y, shapeSize, image);
-        position = Position.RIGHT;
+        enumPosition = EnumPosition.RIGHT;
         actionDone = true;
     }
 
@@ -31,15 +31,15 @@ public class Character extends MapElement implements Runnable {
     }
 
     public void changePosition() {
-        if (position.equals(Position.LEFT)) {
-            position = Position.RIGHT;
+        if (enumPosition.equals(EnumPosition.LEFT)) {
+            enumPosition = EnumPosition.RIGHT;
         } else {
-            position = Position.LEFT;
+            enumPosition = EnumPosition.LEFT;
         }
     }
 
-    public Position getPosition() {
-        return position;
+    public EnumPosition getEnumPosition() {
+        return enumPosition;
     }
 
     public void initPath(Graph graph, Vertex start, Vertex destination) {
@@ -57,9 +57,9 @@ public class Character extends MapElement implements Runnable {
 
     @Override
     public void setX(int x) {
-        if (x < getX() && position.equals(Position.RIGHT)) {
+        if (x < getX() && enumPosition.equals(EnumPosition.RIGHT)) {
             changePosition();
-        } else if (x > getX() && position.equals(Position.LEFT)) {
+        } else if (x > getX() && enumPosition.equals(EnumPosition.LEFT)) {
             changePosition();
         }
 

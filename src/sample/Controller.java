@@ -2,12 +2,12 @@ package sample;
 
 import classes.element.Location;
 import classes.element.MapElement;
-import classes.enumerations.Sprite;
-import classes.graph.Edge;
+import classes.enumerations.EnumGraph;
+import classes.enumerations.EnumSprite;
 import classes.list.CircularQueue;
 import classes.utils.*;
-import classes.enumerations.Image;
-import classes.enumerations.Position;
+import classes.enumerations.EnumImage;
+import classes.enumerations.EnumPosition;
 import classes.graph.Graph;
 import classes.graph.Vertex;
 import classes.element.Character;
@@ -28,7 +28,7 @@ public class Controller {
     @FXML
     private Slider slider_size;
     @FXML
-    private Button button_start, button_start_q0, button_start_q1, button_start_q2;
+    private Button button_start, button_start_simpleDijkstra, button_start_dijkstraToEachOther, button_start_DFS, button_start_BFS;
     @FXML
     private Label label_error;
     @FXML
@@ -56,21 +56,27 @@ public class Controller {
     }
 
     @FXML
-    public void start_q0() {
+    public void start_simpleDijkstra() {
         displayButtons(false);
         romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getX(), raccoon.getY()));
     }
 
     @FXML
-    public void start_q1() {
+    public void start_dijkstraToEachOther() {
         displayButtons(false);
         romeoAndJulietteFindEachOther();
     }
 
     @FXML
-    public void start_q2() {
+    public void start_DFS() {
         displayButtons(false);
-        romeoLooksForJuliette();
+        romeoLooksForJuliette(EnumGraph.DFS);
+    }
+
+    @FXML
+    public void start_BFS() {
+        displayButtons(false);
+        romeoLooksForJuliette(EnumGraph.BFS);
     }
 
     @FXML
@@ -127,8 +133,8 @@ public class Controller {
      */
     public void initRomeoAndJuliette() {
         try {
-            panda = new Character(0, 0, PACE, Image.PANDA);
-            raccoon = new Character(0, 0, PACE, Image.RACCOON);
+            panda = new Character(0, 0, PACE, EnumImage.PANDA);
+            raccoon = new Character(0, 0, PACE, EnumImage.RACCOON);
 
             initCharacter(panda);
             initCharacter(raccoon);
@@ -248,10 +254,10 @@ public class Controller {
     /**
      * Starts simulation where Romeo tries to find Juliette without knowing her exact position
      */
-    public void romeoLooksForJuliette(){
+    public void romeoLooksForJuliette(EnumGraph enumGraph){
         try {
             stopMovements();
-            initBrowsingPathFrom(raccoon);
+            initBrowsingPathFrom(raccoon, enumGraph);
 
             startJulietteTimer();
             startTimerBrowser();
@@ -387,10 +393,10 @@ public class Controller {
         int y = character.getY();
 
         HashMap<Integer, Location> movementsDictionnary = new HashMap<>();
-        movementsDictionnary.put(Position.LEFT.toInteger(), new Location(x - PACE, y));
-        movementsDictionnary.put(Position.RIGHT.toInteger(), new Location(x + PACE, y));
-        movementsDictionnary.put(Position.UP.toInteger(), new Location(x, y + PACE));
-        movementsDictionnary.put(Position.DOWN.toInteger(), new Location(x, y - PACE));
+        movementsDictionnary.put(EnumPosition.LEFT.toInteger(), new Location(x - PACE, y));
+        movementsDictionnary.put(EnumPosition.RIGHT.toInteger(), new Location(x + PACE, y));
+        movementsDictionnary.put(EnumPosition.UP.toInteger(), new Location(x, y + PACE));
+        movementsDictionnary.put(EnumPosition.DOWN.toInteger(), new Location(x, y - PACE));
 
         Random random = new Random();
 
@@ -462,7 +468,7 @@ public class Controller {
             romeoAnimation.cancel();
         }
 
-        romeoAnimation = new AnimationHandler(panda, Sprite.PANDA_SPRITE);
+        romeoAnimation = new AnimationHandler(panda, EnumSprite.PANDA_SPRITE);
         romeoAnimation.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -480,7 +486,7 @@ public class Controller {
             julietteAnimation.cancel();
         }
 
-        julietteAnimation = new AnimationHandler(raccoon, Sprite.RACCOON_SPRITE);
+        julietteAnimation = new AnimationHandler(raccoon, EnumSprite.RACCOON_SPRITE);
         julietteAnimation.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -494,22 +500,20 @@ public class Controller {
      * @param bool
      */
     public void displayButtons(boolean bool){
-        button_start_q0.setVisible(bool);
-        button_start_q1.setVisible(bool);
-        button_start_q2.setVisible(bool);
+        button_start_simpleDijkstra.setVisible(bool);
+        button_start_dijkstraToEachOther.setVisible(bool);
+        button_start_DFS.setVisible(bool);
+        button_start_BFS.setVisible(bool);
     }
 
     /**
      * Initializes a path to browse the graph
      * @param character
      */
-    public void initBrowsingPathFrom(Character character) {
+    public void initBrowsingPathFrom(Character character, EnumGraph enumGraph) {
         Vertex start = graph.getVertexByLocation(character.getLocation());
-        //path = graph.browseBFS(start);
-        path = graph.browseDFS(start);
+        path = enumGraph.equals(EnumGraph.BFS) ? graph.browseBFS(start) : graph.browseDFS(start);
     }
-
-
 
     /**
      * Places a marker at the given position to display a character's walk or anything which needs attention

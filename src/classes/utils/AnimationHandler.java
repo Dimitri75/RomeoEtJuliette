@@ -1,8 +1,8 @@
 package classes.utils;
 
 import classes.element.Character;
-import classes.enumerations.Position;
-import classes.enumerations.Sprite;
+import classes.enumerations.EnumPosition;
+import classes.enumerations.EnumSprite;
 import classes.list.CircularQueue;
 import javafx.scene.paint.ImagePattern;
 
@@ -15,7 +15,7 @@ public class AnimationHandler extends Timer {
     Character character;
     CircularQueue<ImagePattern> left_circularQueue, right_circularQueue;
 
-    public AnimationHandler(Character character, Sprite sprite){
+    public AnimationHandler(Character character, EnumSprite sprite){
         this.character = character;
         left_circularQueue = ResourcesUtils.getInstance().getFrames(sprite).getKey();
         right_circularQueue = ResourcesUtils.getInstance().getFrames(sprite).getValue();
@@ -25,7 +25,7 @@ public class AnimationHandler extends Timer {
      * Changes frame according to the character's position to create animation
      */
     public void changeFrame(){
-        if (character.getPosition().equals(Position.LEFT) && !left_circularQueue.isEmpty())
+        if (character.getEnumPosition().equals(EnumPosition.LEFT) && !left_circularQueue.isEmpty())
             character.getShape().setFill(left_circularQueue.popFirstAndRepushAtTheEnd());
         else
             character.getShape().setFill(right_circularQueue.popFirstAndRepushAtTheEnd());

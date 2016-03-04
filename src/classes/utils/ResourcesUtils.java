@@ -1,6 +1,7 @@
 package classes.utils;
 
-import classes.enumerations.Sprite;
+import classes.enumerations.EnumImage;
+import classes.enumerations.EnumSprite;
 import classes.list.CircularQueue;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -27,8 +28,8 @@ public class ResourcesUtils {
     private ResourcesUtils(){
         obstaclesDictionnary = new HashMap<>();
 
-        obstaclesDictionnary.put(0, new Image(classes.enumerations.Image.OBSTACLE1.toString()));
-        obstaclesDictionnary.put(1, new Image(classes.enumerations.Image.OBSTACLE2.toString()));
+        obstaclesDictionnary.put(0, new Image(EnumImage.OBSTACLE1.toString()));
+        obstaclesDictionnary.put(1, new Image(EnumImage.OBSTACLE2.toString()));
     }
 
     /**
@@ -41,11 +42,11 @@ public class ResourcesUtils {
     }
 
     /**
-     * Gets all the frames from the given Sprite enumeration
+     * Gets all the frames from the given EnumSprite enumeration
      * @param sprite
      * @return
      */
-    public AbstractMap.SimpleEntry<CircularQueue<ImagePattern>, CircularQueue<ImagePattern>> getFrames(Sprite sprite){
+    public AbstractMap.SimpleEntry<CircularQueue<ImagePattern>, CircularQueue<ImagePattern>> getFrames(EnumSprite sprite){
         File spriteDirectory = new File("src", sprite.toString());
         File leftFrames = new File(spriteDirectory, "LEFT");
         File rightFrames = new File(spriteDirectory, "RIGHT");

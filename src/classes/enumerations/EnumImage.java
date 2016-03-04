@@ -3,7 +3,7 @@ package classes.enumerations;
 /**
  * Created by Dimitri on 01/11/2015.
  */
-public enum Image {
+public enum EnumImage {
     PANDA("res/images/panda.png"),
     RACCOON("res/images/raccoon.png"),
 
@@ -13,7 +13,7 @@ public enum Image {
 
     private String name = "";
 
-    Image (String name){
+    EnumImage(String name){
         this.name = name;
     }
 

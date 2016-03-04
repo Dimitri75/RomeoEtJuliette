@@ -3,7 +3,7 @@ package classes.enumerations;
 /**
  * Created by Dimitri on 05/11/2015.
  */
-public enum Position {
+public enum EnumPosition {
     LEFT(0),
     RIGHT(1),
     UP(2),
@@ -11,7 +11,7 @@ public enum Position {
 
     private int index = 0;
 
-    Position (int index){
+    EnumPosition(int index){
         this.index = index;
     }
 

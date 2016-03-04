@@ -1,7 +1,6 @@
 package classes.element;
 
-import classes.enumerations.Image;
-import classes.interfaces.ILocation;
+import classes.enumerations.EnumImage;
 import javafx.animation.TranslateTransition;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -20,7 +19,7 @@ public class MapElement extends Location {
         shape.setY(y);
     }
 
-    public MapElement(int x, int y, int shapeSize, Image image) {
+    public MapElement(int x, int y, int shapeSize, EnumImage image) {
         super(x, y);
         shape = new Rectangle(shapeSize, shapeSize);
         shape.setX(x);

@@ -2,7 +2,7 @@ package classes.graph;
 
 import classes.element.Location;
 import classes.element.MapElement;
-import classes.enumerations.MovementSpeed;
+import classes.enumerations.EnumGraph;
 import classes.list.CircularQueue;
 
 import java.util.*;
@@ -45,7 +45,7 @@ public class Graph {
      * @param movementSpeed
      * @return
      */
-    private Edge addEdge(Vertex source, Vertex target, MovementSpeed movementSpeed) {
+    private Edge addEdge(Vertex source, Vertex target, EnumGraph movementSpeed) {
         Edge edge = new Edge(source, target, movementSpeed);
         listEdges.add(edge);
         return edge;
@@ -104,14 +104,14 @@ public class Graph {
                     tmpVertex = addVertex(x, y);
 
                     if (leftVertex != null) {
-                        addEdge(leftVertex, tmpVertex, MovementSpeed.NORMAL);
-                        addEdge(tmpVertex, leftVertex, MovementSpeed.NORMAL);
+                        addEdge(leftVertex, tmpVertex, EnumGraph.SPEED_NORMAL);
+                        addEdge(tmpVertex, leftVertex, EnumGraph.SPEED_NORMAL);
                     }
 
                     Vertex upVertex;
                     if (y != 0 && (upVertex = getVertexByLocation(x, y - pace)) != null) {
-                        addEdge(upVertex, tmpVertex, MovementSpeed.NORMAL);
-                        addEdge(tmpVertex, upVertex, MovementSpeed.NORMAL);
+                        addEdge(upVertex, tmpVertex, EnumGraph.SPEED_NORMAL);
+                        addEdge(tmpVertex, upVertex, EnumGraph.SPEED_NORMAL);
                     }
                 }
                 leftVertex = tmpVertex;
