@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/enumerations/Image.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/enumerations/MovementSpeed.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/enumerations/Position.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/enumerations/Sprite.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/element/Character.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/element/Character.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/element/MapElement.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/element/MapElement.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/graph/Edge$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/graph/Edge$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/graph/Edge.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/graph/Edge.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/graph/Graph.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/graph/Graph.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/utils/AnimationHandler.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/utils/AnimationHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/utils/ResourcesUtils.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/classes/utils/ResourcesUtils.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/sample.fxml" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/sample.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/classes/element/Character.java" afterPath="$PROJECT_DIR$/src/classes/element/Character.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/classes/element/MapElement.java" afterPath="$PROJECT_DIR$/src/classes/element/MapElement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/classes/graph/Edge.java" afterPath="$PROJECT_DIR$/src/classes/graph/Edge.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/classes/graph/Graph.java" afterPath="$PROJECT_DIR$/src/classes/graph/Graph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/classes/utils/AnimationHandler.java" afterPath="$PROJECT_DIR$/src/classes/utils/AnimationHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/classes/utils/ResourcesUtils.java" afterPath="$PROJECT_DIR$/src/classes/utils/ResourcesUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Controller.java" afterPath="$PROJECT_DIR$/src/sample/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/sample.fxml" afterPath="$PROJECT_DIR$/src/sample/sample.fxml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/classes/enumerations/Image.java" afterPath="$PROJECT_DIR$/src/classes/enumerations/EnumImage.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/classes/enumerations/MovementSpeed.java" afterPath="$PROJECT_DIR$/src/classes/enumerations/EnumGraph.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/classes/enumerations/Position.java" afterPath="$PROJECT_DIR$/src/classes/enumerations/EnumPosition.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/classes/enumerations/Sprite.java" afterPath="$PROJECT_DIR$/src/classes/enumerations/EnumSprite.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1010,12 +980,12 @@
       <workItem from="1457016543505" duration="2594000" />
       <workItem from="1457021243383" duration="11997000" />
       <workItem from="1457033468316" duration="26918000" />
-      <workItem from="1457089788535" duration="10675000" />
+      <workItem from="1457089788535" duration="11243000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="191473000" />
+    <option name="totallyTimeSpent" value="192041000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
