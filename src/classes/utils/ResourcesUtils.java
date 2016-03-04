@@ -31,11 +31,20 @@ public class ResourcesUtils {
         obstaclesDictionnary.put(1, new Image(classes.enumerations.Image.OBSTACLE2.toString()));
     }
 
+    /**
+     * Returns a random obstacle element
+     * @return
+     */
     public Image getObstacle(){
         Random random = new Random();
         return obstaclesDictionnary.get(random.nextInt(2) % 2);
     }
 
+    /**
+     * Gets all the frames from the given Sprite enumeration
+     * @param sprite
+     * @return
+     */
     public AbstractMap.SimpleEntry<CircularQueue<ImagePattern>, CircularQueue<ImagePattern>> getFrames(Sprite sprite){
         File spriteDirectory = new File("src", sprite.toString());
         File leftFrames = new File(spriteDirectory, "LEFT");
@@ -47,7 +56,11 @@ public class ResourcesUtils {
         return new AbstractMap.SimpleEntry(getFilledQueue(leftFrames), getFilledQueue(rightFrames));
     }
 
-
+    /**
+     * Returns a CircularQueue containing all the images in the given folder
+     * @param directory
+     * @return
+     */
     public CircularQueue<ImagePattern> getFilledQueue(File directory){
         if (!directory.exists()) return null;
 

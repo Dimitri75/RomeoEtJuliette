@@ -8,6 +8,11 @@ import java.util.*;
 public class CircularQueue<T> extends LinkedList<T>{
     protected int fixedSize;
 
+    public CircularQueue(){
+        super();
+        this.fixedSize = Integer.MAX_VALUE;
+    }
+
     public CircularQueue(int size){
         super();
         this.fixedSize = size;

@@ -21,6 +21,9 @@ public class AnimationHandler extends Timer {
         right_circularQueue = ResourcesUtils.getInstance().getFrames(sprite).getValue();
     }
 
+    /**
+     * Changes frame according to the character's position to create animation
+     */
     public void changeFrame(){
         if (character.getPosition().equals(Position.LEFT) && !left_circularQueue.isEmpty())
             character.getShape().setFill(left_circularQueue.popFirstAndRepushAtTheEnd());

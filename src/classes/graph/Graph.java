@@ -3,6 +3,7 @@ package classes.graph;
 import classes.element.Location;
 import classes.element.MapElement;
 import classes.enumerations.MovementSpeed;
+import classes.list.CircularQueue;
 
 import java.util.*;
 
@@ -37,26 +38,46 @@ public class Graph {
         return listEdges;
     }
 
-    public Edge addEdge(Vertex source, Vertex target, MovementSpeed movementSpeed) {
+    /**
+     * Adds an edge to the graph
+     * @param source
+     * @param target
+     * @param movementSpeed
+     * @return
+     */
+    private Edge addEdge(Vertex source, Vertex target, MovementSpeed movementSpeed) {
         Edge edge = new Edge(source, target, movementSpeed);
         listEdges.add(edge);
         return edge;
     }
 
-    public Vertex addVertex(int x, int y) {
+    /**
+     * Adds a vertex to the graph
+     * @param x
+     * @param y
+     * @return
+     */
+    private Vertex addVertex(int x, int y) {
         Vertex vertex = new Vertex(x, y);
         listVertex.add(vertex);
         return vertex;
     }
 
+    /**
+     * Returns the vertex corresponding at the given coordinates
+     * @param x
+     * @param y
+     * @return
+     */
     public Vertex getVertexByLocation(int x, int y) {
-        for (Vertex vertex : listVertex)
-            if (vertex.getX() == x && vertex.getY() == y)
-                return vertex;
-
-        return null;
+        return getVertexByLocation(new Location(x, y));
     }
 
+    /**
+     * Returns the vertex at the given location
+     * @param location
+     * @return
+     */
     public Vertex getVertexByLocation(Location location) {
         for (Vertex vertex : listVertex)
             if (vertex.getX() == location.getX() && vertex.getY() == location.getY())
@@ -65,6 +86,9 @@ public class Graph {
         return null;
     }
 
+    /**
+     * Initialize the graph according to the map and the obstacles
+     */
     public void init() {
         boolean noObstacles = true;
         for (int y = 0; y < height; y += pace) {
@@ -95,13 +119,22 @@ public class Graph {
         }
     }
 
-    public void reinitVertices(){
+    /**
+     * Reinitializes vertices distance and previous attribute
+     */
+    private void reinitVertices(){
         for (Vertex vertex : listVertex) {
             vertex.setMinDistance(Double.POSITIVE_INFINITY);
             vertex.setPrevious(null);
         }
     }
 
+    /**
+     * Returns the shortest path in the graph between two vertices using dijkstra algorithm
+     * @param start
+     * @param destination
+     * @return
+     */
     public List<Vertex> dijkstra(Vertex start, Vertex destination) {
         reinitVertices();
 
@@ -135,11 +168,73 @@ public class Graph {
         return path;
     }
 
+    /**
+     * Browses the graph using BFS method
+     * @param start
+     * @return
+     */
+    public CircularQueue browseBFS(Vertex start){
+        List<Vertex> allVertices = new ArrayList<>(listVertex);
+
+        LinkedList<Vertex> queue = new LinkedList<>();
+        CircularQueue<Vertex> circularQueue = new CircularQueue<>(listVertex.size());
+
+        queue.add(start);
+        allVertices.remove(start);
+
+        Vertex current, neighbor;
+        while (!queue.isEmpty()) {
+            current = circularQueue.addAndReturn(queue.poll());
+
+            for (Edge edge : current.getAdjacencies()) {
+                neighbor = edge.getTarget();
+                if (allVertices.contains(neighbor)) {
+                    queue.add(neighbor);
+                    allVertices.remove(neighbor);
+                }
+            }
+        }
+        return circularQueue;
+    }
+
+    /**
+     * Browses the graph recursively using DFS
+     * @param currentVertex
+     * @param allVertices
+     */
+    private void browseDFS(Vertex currentVertex, List<Vertex> allVertices, CircularQueue circularQueue){
+        circularQueue.addAndReturn(currentVertex);
+        allVertices.remove(currentVertex);
+
+        if (allVertices.isEmpty())
+            return;
+
+        for (Edge e : currentVertex.getAdjacencies()) {
+            if (allVertices.contains(e.getTarget())) {
+                browseDFS(e.getTarget(), allVertices, circularQueue);
+            }
+        }
+    }
+
+    /**
+     * Uses the DFS method to return a filled CircularQueue
+     * @param start
+     * @return
+     */
+    public CircularQueue browseDFS(Vertex start){
+        List<Vertex> allVertices = new ArrayList<>(listVertex);
+        CircularQueue<Vertex> circularQueue = new CircularQueue<>(listVertex.size());
+        browseDFS(start, allVertices, circularQueue);
+        return circularQueue;
+    }
+
+    /**
+     * Returns a random vertex
+     * @return
+     */
     public Vertex getRandomVertex(){
         Random random = new Random();
         int randIndex = random.nextInt(listVertex.size());
         return listVertex.get(randIndex);
     }
-
-
 }

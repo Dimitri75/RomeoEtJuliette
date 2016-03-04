@@ -19,6 +19,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.*;
 
@@ -34,12 +36,13 @@ public class Controller {
 
     private Integer PACE;
 
-    private Timer julietteTimer, timer, timerQ2;
+    private Timer julietteTimer, timer, timerBrowser;
     private AnimationHandler julietteAnimation, romeoAnimation;
     private Graph graph;
     private Character panda, raccoon;
     private Thread romeoThread, julietteThread;
     private CircularQueue<Vertex> path;
+    private List<Rectangle> markedLocations;
     private List<MapElement> obstaclesList = new ArrayList<>();
 
     public Controller() {
@@ -79,6 +82,9 @@ public class Controller {
             anchorPane.requestFocus();
     }
 
+    /**
+     * Initializes the map
+     */
     public void initMap() {
         slider_size.setFocusTraversable(false);
         button_start.setFocusTraversable(false);
@@ -89,6 +95,9 @@ public class Controller {
         initGraph();
     }
 
+    /**
+     * Place obstacles around the map according to the size of it
+     */
     public void initObstacles() {
         MapElement obstacle;
         int maxX = (int) (anchorPane.getPrefWidth() / PACE);
@@ -113,6 +122,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Handles the initialization of both Romeo and Juliette
+     */
     public void initRomeoAndJuliette() {
         try {
             panda = new Character(0, 0, PACE, Image.PANDA);
@@ -125,6 +137,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Generic method to init a character at a random position
+     * @param character
+     */
     public void initCharacter(Character character) {
         Random random = new Random();
 
@@ -148,12 +164,19 @@ public class Controller {
         anchorPane.getChildren().add(character.getShape());
     }
 
+    /**
+     * Initializes the graph using obstacles and the size of the window
+     */
     public void initGraph() {
-        graph = new Graph((int) anchorPane.getWidth(), (int) anchorPane.getHeight(), obstaclesList, PACE);   // TODO : vérifier ce qui est généré
+        graph = new Graph((int) anchorPane.getWidth(), (int) anchorPane.getHeight(), obstaclesList, PACE);
     }
 
+    /**
+     * Clears the map and remove elements
+     */
     public void clearAll() {
-        cancelTimer(timer, timer, timerQ2, julietteTimer);
+        clearLocations();
+        cancelTimer(timer, timer, timerBrowser, julietteTimer);
 
         if (julietteTimer != null) julietteTimer.cancel();
 
@@ -176,6 +199,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Starts simulation where Romeo run the shortest path to the given destination
+     * @param destination
+     */
     public void romeoRunTheShortestPathToVertex(Vertex destination){
         stopRomeo();
 
@@ -189,6 +216,9 @@ public class Controller {
         animateRomeo();
     }
 
+    /**
+     * Starts simulation where Romeo and Juliette get to each other through the shortest path in the graph
+     */
     public void romeoAndJulietteFindEachOther() {
         try {
             stopMovements();
@@ -215,20 +245,16 @@ public class Controller {
         }
     }
 
+    /**
+     * Starts simulation where Romeo tries to find Juliette without knowing her exact position
+     */
     public void romeoLooksForJuliette(){
         try {
             stopMovements();
-            initPathTo(raccoon);
+            initBrowsingPathFrom(raccoon);
 
             startJulietteTimer();
-            startTimerQ2();
-
-            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
-            panda.initPath(graph, romeoVertex, julietteVertex);
-
-            romeoThread = new Thread(panda);
-            romeoThread.start();
+            startTimerBrowser();
 
             animateJuliette();
             animateRomeo();
@@ -237,11 +263,17 @@ public class Controller {
         }
     }
 
+    /**
+     * Cancels both Romeo and Juliette
+     */
     public void stopMovements(){
         stopRomeo();
         stopJuliette();
     }
 
+    /**
+     * Handles cancelation of Romeo's animations and thread
+     */
     public void stopRomeo() {
         if (romeoThread != null)
             romeoThread.interrupt();
@@ -250,6 +282,9 @@ public class Controller {
         cancelTimer(romeoAnimation);
     }
 
+    /**
+     * Handles cancelation of Juliette's animations and thread
+     */
     public void stopJuliette() {
         cancelTimer(julietteTimer, julietteAnimation);
 
@@ -258,6 +293,9 @@ public class Controller {
         julietteThread = null;
     }
 
+    /**
+     * Global timer which stops animation when Romeo and Juliette are done
+     */
     public void startGlobalTimer() {
         cancelTimer(timer);
 
@@ -273,6 +311,9 @@ public class Controller {
         }, 0, 300);
     }
 
+    /**
+     * Timer which handles the random walk of Juliette
+     */
     public void startJulietteTimer() {
         cancelTimer(julietteTimer);
 
@@ -288,18 +329,21 @@ public class Controller {
         }, 0, 300);
     }
 
-    public void startTimerQ2() {
-        cancelTimer(timerQ2);
+    /**
+     * Global timer which handles the movements of Romeo trying to find Juliette
+     */
+    public void startTimerBrowser() {
+        cancelTimer(timerBrowser);
 
-        timerQ2 = new Timer();
-        timerQ2.scheduleAtFixedRate(new TimerTask() {
+        timerBrowser = new Timer();
+        timerBrowser.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
                     if (areLocationsClose(panda.getLocation(), raccoon.getLocation())){
                         stopJuliette();
                         romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getLocation()));
-                        cancelTimer(timerQ2);
+                        cancelTimer(timerBrowser);
                     }
 
                     if (panda.isActionDone()){
@@ -321,6 +365,10 @@ public class Controller {
         }, 0, 300);
     }
 
+    /**
+     * Handle timers cancelations
+     * @param timers
+     */
     public void cancelTimer(Timer... timers){
         for (Timer timer : timers) {
             if (timer != null) {
@@ -330,6 +378,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Randomly moves a character up, down, left or right
+     * @param character
+     */
     public void walkRandomly(Character character) {
         int x = character.getX();
         int y = character.getY();
@@ -355,11 +407,23 @@ public class Controller {
         }
     }
 
+    /**
+     * Returns the vertex between two other vertices
+     * @param v1
+     * @param v2
+     * @return
+     */
     public Vertex getDestinationBetweenVertexes(Vertex v1, Vertex v2){
         List<Vertex> path = graph.dijkstra(v1, v2);
         return path.get(path.size() / 2);
     }
 
+    /**
+     * Returns true if an obstacle is found at the given position
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean checkIfNoObstacles(int x, int y) {
         for (MapElement obstacle : obstaclesList)
             if (obstacle.getX() == x && obstacle.getY() == y ||
@@ -368,6 +432,12 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Returns true if two locations have been found close
+     * @param location1
+     * @param location2
+     * @return
+     */
     public boolean areLocationsClose(Location location1, Location location2) {
         if ((location1.getX() == location2.getX() && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() + PACE && location1.getY() == location2.getY()) ||
@@ -383,6 +453,9 @@ public class Controller {
         return false;
     }
 
+    /**
+     * COntrols romeo's animation
+     */
     public void animateRomeo(){
         if (romeoAnimation != null) {
             romeoAnimation.purge();
@@ -398,6 +471,9 @@ public class Controller {
         }, 0, 150);
     }
 
+    /**
+     * Controls juliette's animation
+     */
     public void animateJuliette(){
         if (julietteAnimation != null) {
             julietteAnimation.purge();
@@ -413,49 +489,55 @@ public class Controller {
         }, 0, 150);
     }
 
+    /**
+     * Controls the buttons visibility
+     * @param bool
+     */
     public void displayButtons(boolean bool){
         button_start_q0.setVisible(bool);
         button_start_q1.setVisible(bool);
         button_start_q2.setVisible(bool);
     }
 
-
-    public void browseDFS(Vertex currentVertex, List<Vertex> allVertices){
-        path.addAndReturn(currentVertex);
-        allVertices.remove(currentVertex);
-
-        if (allVertices.isEmpty())
-            return;
-
-        for (Edge e : currentVertex.getAdjacencies()) {
-            if (allVertices.contains(e.getTarget())) {
-                browseDFS(e.getTarget(), allVertices);
-            }
-        }
-    }
-
-    public void initPathTo(Character character) {
+    /**
+     * Initializes a path to browse the graph
+     * @param character
+     */
+    public void initBrowsingPathFrom(Character character) {
         Vertex start = graph.getVertexByLocation(character.getLocation());
-        path = new CircularQueue<>(graph.getListVertex().size());
-        browseBFS(start, new ArrayList<>(graph.getListVertex()));
+        //path = graph.browseBFS(start);
+        path = graph.browseDFS(start);
     }
 
-    public void browseBFS(Vertex start, List<Vertex> allVertices){
-        LinkedList<Vertex> queue = new LinkedList<>();
-        queue.add(start);
-        allVertices.remove(start);
 
-        Vertex current, neighbor;
-        while (!queue.isEmpty()) {
-            current = path.addAndReturn(queue.poll());
 
-            for (Edge edge : current.getAdjacencies()) {
-                neighbor = edge.getTarget();
-                if (allVertices.contains(neighbor)) {
-                    queue.add(neighbor);
-                    allVertices.remove(neighbor);
-                }
+    /**
+     * Places a marker at the given position to display a character's walk or anything which needs attention
+     * @param location
+     * @param color
+     */
+    public void markLocation(Location location, Color color){
+        if (markedLocations == null)
+            markedLocations = new ArrayList<>();
+
+        Rectangle rectangle = new Rectangle(PACE, PACE);
+        rectangle.setX(location.getX());
+        rectangle.setY(location.getY());
+        rectangle.setFill(color);
+        rectangle.setOpacity(0.5);
+        anchorPane.getChildren().add(rectangle);
+        markedLocations.add(rectangle);
+    }
+
+    /**
+     * Clears previously marked locations
+     */
+    public void clearLocations(){
+        if (markedLocations != null && !markedLocations.isEmpty()){
+            for (Rectangle rectangle : markedLocations){
+                anchorPane.getChildren().remove(rectangle);
             }
+            markedLocations.clear();
         }
     }
 }
