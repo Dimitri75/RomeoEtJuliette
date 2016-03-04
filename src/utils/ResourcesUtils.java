@@ -1,5 +1,6 @@
 package utils;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import enumerations.EnumImage;
 import enumerations.EnumSprite;
 import list.CircularQueue;
@@ -60,18 +61,25 @@ public class ResourcesUtils {
      * @return
      */
     public CircularQueue<ImagePattern> getFilledQueue(String uri){
-        String url = getClass().getClassLoader().getResource(uri).getFile();
 
-        File directory = new File(url);
-        if (!directory.exists())
-            return null;
-
-        CircularQueue<ImagePattern> circularQueue = new CircularQueue<>(directory.listFiles().length);
+        CircularQueue<ImagePattern> circularQueue = new CircularQueue<>(4);
         String path;
-        for (File file : directory.listFiles()){
-            path = getClass().getClassLoader().getResource(uri + "/" + file.getName()).toString();
+        for (int i = 1; i < 5; i++){
+            path = uri + "/walk" + i + ".png";
             circularQueue.addAndReturn(new ImagePattern(new javafx.scene.image.Image(path)));
         }
+
+//        String url = getClass().getClassLoader().getResource(uri).getFile();
+//        File directory = new File(url);
+//        if (!directory.exists())
+//            return null;
+//
+//        CircularQueue<ImagePattern> circularQueue = new CircularQueue<>(directory.listFiles().length);
+//        String path;
+//        for (File file : directory.listFiles()){
+//            path = uri + "/" + file.getName();
+//            circularQueue.addAndReturn(new ImagePattern(new javafx.scene.image.Image(path)));
+//        }
         return circularQueue;
     }
 }

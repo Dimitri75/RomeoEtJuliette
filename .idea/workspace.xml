@@ -7,62 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/RomeoEtJuliette.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/obstacle.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/obstacle1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/obstacle2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/panda.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/raccoon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk4.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/enumerations/EnumImage.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/enumerations/EnumImage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/utils/ResourcesUtils.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/utils/ResourcesUtils.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RomeoEtJuliette.iml" afterPath="$PROJECT_DIR$/RomeoEtJuliette.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/enumerations/EnumImage.java" afterPath="$PROJECT_DIR$/src/enumerations/EnumImage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/enumerations/EnumSprite.java" afterPath="$PROJECT_DIR$/src/enumerations/EnumSprite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/AnimationHandler.java" afterPath="$PROJECT_DIR$/src/utils/AnimationHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/ResourcesUtils.java" afterPath="$PROJECT_DIR$/src/utils/ResourcesUtils.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/obstacle.png" afterPath="$PROJECT_DIR$/res/images/obstacle.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/obstacle1.png" afterPath="$PROJECT_DIR$/res/images/obstacle1.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/obstacle2.png" afterPath="$PROJECT_DIR$/res/images/obstacle2.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/panda.png" afterPath="$PROJECT_DIR$/res/images/panda.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/raccoon.png" afterPath="$PROJECT_DIR$/res/images/raccoon.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk1.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk2.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk3.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk4.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk1.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk2.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk3.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk4.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk1.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk2.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk3.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk4.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk1.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk2.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk3.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk4.png" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -132,8 +78,18 @@
       <file leaf-file-name="ResourcesUtils.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/utils/ResourcesUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1208792">
-              <caret line="71" column="97" selection-start-line="71" selection-start-column="97" selection-end-line="71" selection-end-column="97" />
+            <state vertical-scroll-proportion="0.8888889">
+              <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="File.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../JDK/jdk1.8.0_60/src.zip!/java/io/File.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1113" column="20" selection-start-line="1113" selection-start-column="20" selection-end-line="1113" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -153,7 +109,7 @@
         <entry file="file://$PROJECT_DIR$/src/enumerations/EnumSprite.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
+              <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -233,8 +189,8 @@
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/sample.fxml" />
         <option value="$PROJECT_DIR$/src/enumerations/EnumImage.java" />
-        <option value="$PROJECT_DIR$/src/enumerations/EnumSprite.java" />
         <option value="$PROJECT_DIR$/src/utils/AnimationHandler.java" />
+        <option value="$PROJECT_DIR$/src/enumerations/EnumSprite.java" />
         <option value="$PROJECT_DIR$/src/utils/ResourcesUtils.java" />
       </list>
     </option>
@@ -931,12 +887,12 @@
       <workItem from="1457016543505" duration="2594000" />
       <workItem from="1457021243383" duration="11997000" />
       <workItem from="1457033468316" duration="26918000" />
-      <workItem from="1457089788535" duration="18177000" />
+      <workItem from="1457089788535" duration="21617000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="198975000" />
+    <option name="totallyTimeSpent" value="202415000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -957,7 +913,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20490928" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29704016" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29704016" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15729167" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
@@ -995,17 +951,17 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/utils/ResourcesUtils.java</url>
           <line>62</line>
-          <properties />
-          <option name="timeStamp" value="108" />
+          <properties class="utils.ResourcesUtils" method="getFilledQueue" />
+          <option name="timeStamp" value="111" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="110" />
+      <option name="time" value="112" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1987,10 +1943,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/enumerations/EnumSprite.java">
+    <entry file="jar://$PROJECT_DIR$/../../../JDK/jdk1.8.0_60/src.zip!/java/io/File.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
+          <caret line="1113" column="20" selection-start-line="1113" selection-start-column="20" selection-end-line="1113" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -2003,10 +1959,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/enumerations/EnumSprite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/ResourcesUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1208792">
-          <caret line="71" column="97" selection-start-line="71" selection-start-column="97" selection-end-line="71" selection-end-column="97" />
+        <state vertical-scroll-proportion="0.8888889">
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
           <folding />
         </state>
       </provider>

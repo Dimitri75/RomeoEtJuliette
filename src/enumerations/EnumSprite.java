@@ -7,7 +7,6 @@ public enum EnumSprite {
     RACCOON_SPRITE("images/sprite_raccoon"),
     PANDA_SPRITE("images/sprite_panda");
 
-
     private String name = "";
 
     EnumSprite(String name){
