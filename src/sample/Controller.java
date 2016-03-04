@@ -1,16 +1,15 @@
 package sample;
 
-import classes.element.Location;
-import classes.element.MapElement;
-import classes.enumerations.EnumGraph;
-import classes.enumerations.EnumSprite;
-import classes.list.CircularQueue;
-import classes.utils.*;
-import classes.enumerations.EnumImage;
-import classes.enumerations.EnumPosition;
-import classes.graph.Graph;
-import classes.graph.Vertex;
-import classes.element.Character;
+import element.Location;
+import element.MapElement;
+import enumerations.EnumGraph;
+import enumerations.EnumSprite;
+import list.CircularQueue;
+import enumerations.EnumImage;
+import enumerations.EnumPosition;
+import graph.Graph;
+import graph.Vertex;
+import element.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,6 +20,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import utils.AnimationHandler;
+import utils.ResourcesUtils;
 
 import java.util.*;
 
