@@ -38,4 +38,12 @@ public class Location implements ILocation {
             return true;
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

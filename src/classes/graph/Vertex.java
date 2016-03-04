@@ -1,6 +1,7 @@
 package classes.graph;
 
 import classes.interfaces.ILocation;
+import classes.utils.Location;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,10 @@ public class Vertex implements ILocation, Comparable<Vertex> {
 
 	public Vertex getPrevious() {
 		return previous;
+	}
+
+	public Location getLocation(){
+		return new Location(x, y);
 	}
 
 	@Override

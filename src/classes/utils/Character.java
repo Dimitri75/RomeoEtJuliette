@@ -19,7 +19,7 @@ public class Character extends MapElement implements Runnable {
     public Character(int x, int y, int shapeSize, Image image) {
         super(x, y, shapeSize, image);
         position = Position.RIGHT;
-        actionDone = false;
+        actionDone = true;
     }
 
     public boolean isActionDone() {
@@ -47,9 +47,16 @@ public class Character extends MapElement implements Runnable {
     }
 
     public void initPath(Graph graph, Vertex start, Vertex destination) {
+        actionDone = false;
+
         if (path != null)
             path.clear();
         path = graph.dijkstra(start, destination);
+    }
+
+    public void setLocation(Location location){
+        setX(location.getX());
+        setY(location.getY());
     }
 
     @Override
@@ -89,5 +96,10 @@ public class Character extends MapElement implements Runnable {
             }
             actionDone = true;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Character : " + getLocation();
     }
 }

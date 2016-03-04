@@ -1,7 +1,9 @@
 package classes.graph;
 
+import classes.utils.Location;
 import classes.utils.MapElement;
 import classes.enumerations.MovementSpeed;
+import sun.reflect.generics.tree.Tree;
 
 import java.util.*;
 
@@ -56,6 +58,14 @@ public class Graph {
         return null;
     }
 
+    public Vertex getVertexByLocation(Location location) {
+        for (Vertex vertex : listVertex)
+            if (vertex.getX() == location.getX() && vertex.getY() == location.getY())
+                return vertex;
+
+        return null;
+    }
+
     public void init() {
         boolean noObstacles = true;
         for (int y = 0; y < height; y += pace) {
@@ -75,13 +85,10 @@ public class Graph {
                         addEdge(tmpVertex, leftVertex, MovementSpeed.NORMAL);
                     }
 
-                    if (y != 0) {
-                        Vertex upVertex = getVertexByLocation(x, y - pace);
-
-                        if (upVertex != null) {
-                            addEdge(upVertex, tmpVertex, MovementSpeed.NORMAL);
-                            addEdge(tmpVertex, upVertex, MovementSpeed.NORMAL);
-                        }
+                    Vertex upVertex;
+                    if (y != 0 && (upVertex = getVertexByLocation(x, y - pace)) != null) {
+                        addEdge(upVertex, tmpVertex, MovementSpeed.NORMAL);
+                        addEdge(tmpVertex, upVertex, MovementSpeed.NORMAL);
                     }
                 }
                 leftVertex = tmpVertex;
@@ -89,12 +96,15 @@ public class Graph {
         }
     }
 
-    public List<Vertex> dijkstra(Vertex start, Vertex destination) {
-        // ReinitVertex
+    public void reinitVertices(){
         for (Vertex vertex : listVertex) {
             vertex.setMinDistance(Double.POSITIVE_INFINITY);
             vertex.setPrevious(null);
         }
+    }
+
+    public List<Vertex> dijkstra(Vertex start, Vertex destination) {
+        reinitVertices();
 
         // ComputePaths
         start.setMinDistance(0.);
@@ -131,5 +141,6 @@ public class Graph {
         int randIndex = random.nextInt(listVertex.size());
         return listVertex.get(randIndex);
     }
+
 
 }

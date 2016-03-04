@@ -1,6 +1,8 @@
 package sample;
 
 import classes.enumerations.Sprite;
+import classes.graph.Edge;
+import classes.list.CircularQueue;
 import classes.utils.*;
 import classes.enumerations.Image;
 import classes.enumerations.Position;
@@ -15,6 +17,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.*;
 
@@ -35,6 +39,7 @@ public class Controller {
     private Graph graph;
     private Character panda, raccoon;
     private Thread romeoThread, julietteThread;
+    private CircularQueue<Vertex> path;
     private List<MapElement> obstaclesList = new ArrayList<>();
 
     public Controller() {
@@ -50,7 +55,7 @@ public class Controller {
     @FXML
     public void start_q0() {
         displayButtons(false);
-        romeoRunTheShortestPathToJuliette();
+        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getX(), raccoon.getY()));
     }
 
     @FXML
@@ -77,7 +82,7 @@ public class Controller {
     public void initMap() {
         slider_size.setFocusTraversable(false);
         button_start.setFocusTraversable(false);
-        PACE = (slider_size.getValue() < 10) ? 10 : (int) slider_size.getValue();
+        PACE = (slider_size.getValue() < 50) ? 50 : (int) slider_size.getValue();
 
         initObstacles();
         initRomeoAndJuliette();
@@ -148,6 +153,8 @@ public class Controller {
     }
 
     public void clearAll() {
+        cancelTimer(timerQ0, timerQ1, timerQ2, julietteTimer);
+
         if (julietteTimer != null) julietteTimer.cancel();
 
         label_error.setText("");
@@ -169,14 +176,13 @@ public class Controller {
         }
     }
 
-    public void romeoRunTheShortestPathToJuliette(){
+    public void romeoRunTheShortestPathToVertex(Vertex destination){
         stopMovement();
         startTimerQ0();
 
         Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-        Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
 
-        panda.initPath(graph, romeoVertex, julietteVertex);
+        panda.initPath(graph, romeoVertex, destination);
 
         romeoThread = new Thread(panda);
 
@@ -214,17 +220,17 @@ public class Controller {
     public void romeoLooksForJuliette(){
         try {
             stopMovement();
+            getDFSPath(panda);
+
             startJulietteTimer();
             startTimerQ2();
 
-            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
-
-            panda.initPath(graph, romeoVertex, julietteVertex);
-
-            romeoThread = new Thread(panda);
-
-            romeoThread.start();
+//            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
+//            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
+//            panda.initPath(graph, romeoVertex, julietteVertex);
+//
+//            romeoThread = new Thread(panda);
+//            romeoThread.start();
 
             animateJuliette();
             animateRomeo();
@@ -241,6 +247,16 @@ public class Controller {
         if (julietteThread != null)
             julietteThread.interrupt();
         julietteThread = null;
+
+        if (romeoAnimation != null){
+            romeoAnimation.purge();
+            romeoAnimation.cancel();
+        }
+
+        if (julietteAnimation != null){
+            julietteAnimation.purge();
+            julietteAnimation.cancel();
+        }
     }
 
     public void startTimerQ0() {
@@ -286,12 +302,7 @@ public class Controller {
         julietteTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        walkRandomly(raccoon);
-                    }
-                });
+                Platform.runLater(() -> walkRandomly(raccoon));
             }
         }, 0, 600);
     }
@@ -303,16 +314,31 @@ public class Controller {
         timerQ2.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (areLocationsClose(panda.getLocation(), raccoon.getLocation())){
-                            cancelTimer(julietteTimer, timerQ2);
-                            romeoThread.interrupt();
+                Platform.runLater(() -> {
+                    if (areLocationsClose(panda.getLocation(), raccoon.getLocation())){
+//                        cancelTimer(julietteTimer, timerQ2);
+//                        romeoRunTheShortestPathToVertex();
+                    }
+
+                    if (panda.isActionDone()){
+                        Location location = path.popFirstAndRepushAtTheEnd().getLocation();
+
+                        if (((location.getX() - panda.getX() == PACE || location.getX() - panda.getX() == -PACE)
+                                && location.getY() == panda.getY()) ||
+                                ((location.getY() - panda.getY() == PACE || location.getY() - panda.getY() == -PACE)
+                                        && location.getX() == panda.getX())){
+                            panda.setLocation(location);
+                        }
+                        else {
+
                         }
 
-                        if (panda.isActionDone())
-                            walkRandomly(panda);
+                        Rectangle r = new Rectangle(PACE, PACE);
+                        r.setFill(Color.BURLYWOOD);
+                        r.setX(panda.getX());
+                        r.setY(panda.getY());
+                        r.setOpacity(0.4);
+                        anchorPane.getChildren().add(r);
                     }
                 });
             }
@@ -327,15 +353,7 @@ public class Controller {
             }
         }
 
-        if (romeoAnimation != null){
-            romeoAnimation.purge();
-            romeoAnimation.cancel();
-        }
-
-        if (julietteAnimation != null){
-            julietteAnimation.purge();
-            julietteAnimation.cancel();
-        }
+        stopMovement();
     }
 
     public void walkRandomly(Character character) {
@@ -356,8 +374,6 @@ public class Controller {
             Location location = movementsDictionnary.get(position);
 
             if (checkIfNoObstacles(location.getX(), location.getY())) {
-
-
                 character.setX(location.getX());
                 character.setY(location.getY());
                 hasMoved = true;
@@ -383,7 +399,11 @@ public class Controller {
                 (location1.getX() == location2.getX() + PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() - PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() && location1.getY() == location2.getY() + PACE) ||
-                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - PACE)) {
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - PACE) ||
+                (location1.getX() == location2.getX() + 2*PACE && location1.getY() == location2.getY()) ||
+                (location1.getX() == location2.getX() - 2*PACE && location1.getY() == location2.getY()) ||
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() + 2*PACE) ||
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - 2*PACE)) {
             return true;
         }
         return false;
@@ -399,12 +419,7 @@ public class Controller {
         romeoAnimation.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        romeoAnimation.changeFrame();
-                    }
-                });
+                Platform.runLater(() -> romeoAnimation.changeFrame());
             }
         }, 0, 150);
     }
@@ -435,4 +450,27 @@ public class Controller {
         button_start_q2.setVisible(bool);
     }
 
+
+    public void DFS(Vertex currentVertex, List<Vertex> allVertices){
+        System.out.println(currentVertex.getLocation());
+        path.push(currentVertex);
+        allVertices.remove(currentVertex);
+
+        if (allVertices.isEmpty())
+            return;
+
+        for (Edge e : currentVertex.getAdjacencies()) {
+            if (allVertices.contains(e.getTarget())) {
+                DFS(e.getTarget(), allVertices);
+            }
+        }
+    }
+
+    public void getDFSPath(Character character) {
+        System.out.println(character);
+
+        Vertex start = graph.getVertexByLocation(character.getLocation());
+        path = new CircularQueue<>(graph.getListVertex().size());
+        DFS(start, new ArrayList<>(graph.getListVertex()));
+    }
 }
