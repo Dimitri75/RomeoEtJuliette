@@ -26,22 +26,22 @@
                         <Label fx:id="label_error" alignment="BOTTOM_CENTER" prefHeight="20.0" textAlignment="CENTER" textFill="white">
 
                         </Label>
-                        <Button fx:id="button_start_simpleDijkstra" onAction="#start_simpleDijkstra" prefHeight="65.0" prefWidth="225.0" text="Romeo travels through the shortest path to Juliette who doesn't move." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                        <Button fx:id="button_start_simpleDijkstra" onAction="#start_simpleDijkstra" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda travels through the shortest path to Juliette the raccoon who doesn't move." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_dijkstraToEachOther" onAction="#start_dijkstraToEachOther" prefHeight="65.0" prefWidth="225.0" text="Romeo and Juliette travel to each other." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                        <Button fx:id="button_start_dijkstraToEachOther" onAction="#start_dijkstraToEachOther" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda and Juliette the raccoon travel to each other." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_DFS" onAction="#start_DFS" prefHeight="65.0" prefWidth="225.0" text="Romeo tries to find Juliette who walks randomly (DFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                        <Button fx:id="button_start_DFS" onAction="#start_DFS" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda tries to find Juliette the raccoon who walks randomly (DFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_BFS" onAction="#start_BFS" prefHeight="65.0" prefWidth="225.0" text="Romeo tries to find Juliette who walks randomly (BFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                        <Button fx:id="button_start_BFS" onAction="#start_BFS" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda tries to find Juliette the raccoon who walks randomly (BFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
