@@ -1,4 +1,4 @@
-package classes.utils;
+package classes.element;
 
 import classes.enumerations.Image;
 import classes.enumerations.Position;
@@ -40,10 +40,6 @@ public class Character extends MapElement implements Runnable {
 
     public Position getPosition() {
         return position;
-    }
-
-    public Location getLocation(){
-        return new Location(getX(), getY());
     }
 
     public void initPath(Graph graph, Vertex start, Vertex destination) {

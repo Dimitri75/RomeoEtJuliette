@@ -1,5 +1,7 @@
 package sample;
 
+import classes.element.Location;
+import classes.element.MapElement;
 import classes.enumerations.Sprite;
 import classes.graph.Edge;
 import classes.list.CircularQueue;
@@ -8,7 +10,7 @@ import classes.enumerations.Image;
 import classes.enumerations.Position;
 import classes.graph.Graph;
 import classes.graph.Vertex;
-import classes.utils.Character;
+import classes.element.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -435,7 +437,7 @@ public class Controller {
 
     public void initPath(Character character) {
         //System.out.println(character);
-
+        
         Vertex start = graph.getVertexByLocation(character.getLocation());
         path = new CircularQueue<>(graph.getListVertex().size());
         browseAdjacencies(start, new ArrayList<>(graph.getListVertex()));

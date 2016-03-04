@@ -1,4 +1,4 @@
-package classes.utils;
+package classes.element;
 
 import classes.interfaces.ILocation;
 
@@ -11,6 +11,10 @@ public class Location implements ILocation {
     public Location(int x, int y){
         this.x = x;
         this.y = y;
+    }
+
+    public Location getLocation(){
+        return this;
     }
 
     @Override

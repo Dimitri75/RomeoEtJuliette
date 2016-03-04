@@ -1,5 +1,6 @@
 package classes.utils;
 
+import classes.element.Character;
 import classes.enumerations.Position;
 import classes.enumerations.Sprite;
 import classes.list.CircularQueue;

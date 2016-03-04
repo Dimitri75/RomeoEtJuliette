@@ -1,9 +1,8 @@
 package classes.graph;
 
-import classes.utils.Location;
-import classes.utils.MapElement;
+import classes.element.Location;
+import classes.element.MapElement;
 import classes.enumerations.MovementSpeed;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.*;
 

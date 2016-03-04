@@ -1,4 +1,4 @@
-package classes.utils;
+package classes.element;
 
 import classes.enumerations.Image;
 import classes.interfaces.ILocation;
@@ -10,31 +10,27 @@ import javafx.util.Duration;
 /**
  * Created by Dimitri on 05/11/2015.
  */
-public class MapElement implements ILocation {
-    int x, y;
+public class MapElement extends Location {
     private Rectangle shape;
 
     public MapElement(int x, int y, int shapeSize) {
+        super(x, y);
         shape = new Rectangle(shapeSize, shapeSize);
-        this.x = x;
-        this.y = y;
         shape.setX(x);
         shape.setY(y);
     }
 
     public MapElement(int x, int y, int shapeSize, Image image) {
+        super(x, y);
         shape = new Rectangle(shapeSize, shapeSize);
-        this.x = x;
-        this.y = y;
         shape.setX(x);
         shape.setY(y);
         getShape().setFill(new ImagePattern(new javafx.scene.image.Image(image.toString())));
     }
 
     public MapElement(int x, int y, int shapeSize, javafx.scene.image.Image image) {
+        super(x, y);
         shape = new Rectangle(shapeSize, shapeSize);
-        this.x = x;
-        this.y = y;
         shape.setX(x);
         shape.setY(y);
         getShape().setFill(new ImagePattern(image));
@@ -42,11 +38,6 @@ public class MapElement implements ILocation {
 
     public Rectangle getShape() {
         return shape;
-    }
-
-    @Override
-    public int getX() {
-        return x;
     }
 
     @Override
@@ -59,11 +50,6 @@ public class MapElement implements ILocation {
         transition.setDuration(Duration.millis(300));
         transition.setNode(getShape());
         transition.play();
-    }
-
-    @Override
-    public int getY() {
-        return y;
     }
 
     @Override
@@ -80,12 +66,8 @@ public class MapElement implements ILocation {
 
     @Override
     public boolean equals(Object other){
-        if (other == null)
-            return false;
-
-        if (getX() == ((MapElement) other).getX() && getY() == ((MapElement) other).getY())
+        if (other != null && getX() == ((MapElement) other).getX() && getY() == ((MapElement) other).getY())
             return true;
-        else
-            return false;
+        return false;
     }
 }
