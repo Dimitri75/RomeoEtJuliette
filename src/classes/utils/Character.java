@@ -95,11 +95,8 @@ public class Character extends MapElement implements Runnable {
                 }
             }
             actionDone = true;
-        }
-    }
 
-    @Override
-    public String toString() {
-        return "Character : " + getLocation();
+
+     }
     }
 }

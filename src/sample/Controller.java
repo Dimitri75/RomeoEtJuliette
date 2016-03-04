@@ -17,8 +17,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 import java.util.*;
 
@@ -34,7 +32,7 @@ public class Controller {
 
     private Integer PACE;
 
-    private Timer julietteTimer, timerQ0, timerQ1, timerQ2;
+    private Timer julietteTimer, timer, timerQ2;
     private AnimationHandler julietteAnimation, romeoAnimation;
     private Graph graph;
     private Character panda, raccoon;
@@ -96,7 +94,7 @@ public class Controller {
         for (int x = 2; x < maxX; x *= 2) {
             for (int y = 3; y < maxY; y++) {
                 if (y % x != 0) {
-                    obstacle = new MapElement(x * PACE, y * PACE, PACE, Image.OBSTACLE);
+                    obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
                     anchorPane.getChildren().add(obstacle.getShape());
                     obstaclesList.add(obstacle);
                 }
@@ -105,7 +103,7 @@ public class Controller {
         for (int y = 2; y < maxY; y *= 2) {
             for (int x = 3; x < maxX; x++) {
                 if (x % 5 == 0 || x % 5 == 1) {
-                    obstacle = new MapElement(x * PACE, y * PACE, PACE, Image.OBSTACLE);
+                    obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
                     anchorPane.getChildren().add(obstacle.getShape());
                     obstaclesList.add(obstacle);
                 }
@@ -153,7 +151,7 @@ public class Controller {
     }
 
     public void clearAll() {
-        cancelTimer(timerQ0, timerQ1, timerQ2, julietteTimer);
+        cancelTimer(timer, timer, timerQ2, julietteTimer);
 
         if (julietteTimer != null) julietteTimer.cancel();
 
@@ -163,7 +161,7 @@ public class Controller {
             anchorPane.getChildren().remove(obstacle.getShape());
         obstaclesList.clear();
 
-        stopMovement();
+        stopMovements();
 
         if (panda != null) {
             anchorPane.getChildren().remove(panda.getShape());
@@ -177,15 +175,13 @@ public class Controller {
     }
 
     public void romeoRunTheShortestPathToVertex(Vertex destination){
-        stopMovement();
-        startTimerQ0();
+        stopRomeo();
 
         Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-
         panda.initPath(graph, romeoVertex, destination);
-
         romeoThread = new Thread(panda);
 
+        startGlobalTimer();
         romeoThread.start();
 
         animateRomeo();
@@ -193,8 +189,7 @@ public class Controller {
 
     public void romeoAndJulietteFindEachOther() {
         try {
-            stopMovement();
-            startTimerQ1();
+            stopMovements();
 
             Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
             Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
@@ -207,6 +202,7 @@ public class Controller {
             romeoThread = new Thread(panda);
             julietteThread = new Thread(raccoon);
 
+            startGlobalTimer();
             romeoThread.start();
             julietteThread.start();
 
@@ -219,18 +215,18 @@ public class Controller {
 
     public void romeoLooksForJuliette(){
         try {
-            stopMovement();
-            getDFSPath(panda);
+            stopMovements();
+            initDFSPath(panda);
 
             startJulietteTimer();
             startTimerQ2();
 
-//            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-//            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
-//            panda.initPath(graph, romeoVertex, julietteVertex);
-//
-//            romeoThread = new Thread(panda);
-//            romeoThread.start();
+            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
+            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
+            panda.initPath(graph, romeoVertex, julietteVertex);
+
+            romeoThread = new Thread(panda);
+            romeoThread.start();
 
             animateJuliette();
             animateRomeo();
@@ -239,57 +235,37 @@ public class Controller {
         }
     }
 
-    public void stopMovement() {
+    public void stopMovements(){
+        stopRomeo();
+        stopJuliette();
+    }
+
+    public void stopRomeo() {
         if (romeoThread != null)
             romeoThread.interrupt();
         romeoThread = null;
 
+        cancelTimer(romeoAnimation);
+    }
+
+    public void stopJuliette() {
+        cancelTimer(julietteTimer, julietteAnimation);
+
         if (julietteThread != null)
             julietteThread.interrupt();
         julietteThread = null;
-
-        if (romeoAnimation != null){
-            romeoAnimation.purge();
-            romeoAnimation.cancel();
-        }
-
-        if (julietteAnimation != null){
-            julietteAnimation.purge();
-            julietteAnimation.cancel();
-        }
     }
 
-    public void startTimerQ0() {
-        cancelTimer(timerQ0);
+    public void startGlobalTimer() {
+        cancelTimer(timer);
 
-        timerQ0 = new Timer();
-        timerQ0.scheduleAtFixedRate(new TimerTask() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (panda.isActionDone())
-                            cancelTimer(timerQ0);
-                    }
-                });
-            }
-        }, 0, 300);
-    }
-
-    public void startTimerQ1() {
-        cancelTimer(timerQ1);
-
-        timerQ1 = new Timer();
-        timerQ1.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (panda.isActionDone() && raccoon.isActionDone())
-                            cancelTimer(timerQ1);
-                    }
+                Platform.runLater(() -> {
+                    if (panda.isActionDone() && raccoon.isActionDone())
+                        cancelTimer(romeoAnimation, julietteAnimation, timer);
                 });
             }
         }, 0, 300);
@@ -302,9 +278,12 @@ public class Controller {
         julietteTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(() -> walkRandomly(raccoon));
+                Platform.runLater(() -> {
+                    //animateJuliette();
+                    walkRandomly(raccoon);
+                });
             }
-        }, 0, 600);
+        }, 0, 300);
     }
 
     public void startTimerQ2() {
@@ -316,8 +295,9 @@ public class Controller {
             public void run() {
                 Platform.runLater(() -> {
                     if (areLocationsClose(panda.getLocation(), raccoon.getLocation())){
-//                        cancelTimer(julietteTimer, timerQ2);
-//                        romeoRunTheShortestPathToVertex();
+                        stopJuliette();
+                        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getLocation()));
+                        cancelTimer(timerQ2);
                     }
 
                     if (panda.isActionDone()){
@@ -327,18 +307,12 @@ public class Controller {
                                 && location.getY() == panda.getY()) ||
                                 ((location.getY() - panda.getY() == PACE || location.getY() - panda.getY() == -PACE)
                                         && location.getX() == panda.getX())){
+                            animateRomeo();
                             panda.setLocation(location);
                         }
                         else {
-
+                            romeoRunTheShortestPathToVertex(graph.getVertexByLocation(location));
                         }
-
-                        Rectangle r = new Rectangle(PACE, PACE);
-                        r.setFill(Color.BURLYWOOD);
-                        r.setX(panda.getX());
-                        r.setY(panda.getY());
-                        r.setOpacity(0.4);
-                        anchorPane.getChildren().add(r);
                     }
                 });
             }
@@ -352,8 +326,6 @@ public class Controller {
                 timer.cancel();
             }
         }
-
-        stopMovement();
     }
 
     public void walkRandomly(Character character) {
@@ -399,11 +371,11 @@ public class Controller {
                 (location1.getX() == location2.getX() + PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() - PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() && location1.getY() == location2.getY() + PACE) ||
-                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - PACE) ||
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - PACE) /*||
                 (location1.getX() == location2.getX() + 2*PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() - 2*PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() && location1.getY() == location2.getY() + 2*PACE) ||
-                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - 2*PACE)) {
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - 2*PACE)*/) {
             return true;
         }
         return false;
@@ -434,12 +406,7 @@ public class Controller {
         julietteAnimation.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        julietteAnimation.changeFrame();
-                    }
-                });
+                Platform.runLater(() -> julietteAnimation.changeFrame());
             }
         }, 0, 150);
     }
@@ -452,7 +419,7 @@ public class Controller {
 
 
     public void DFS(Vertex currentVertex, List<Vertex> allVertices){
-        System.out.println(currentVertex.getLocation());
+        //System.out.println(currentVertex.getLocation());
         path.push(currentVertex);
         allVertices.remove(currentVertex);
 
@@ -466,8 +433,8 @@ public class Controller {
         }
     }
 
-    public void getDFSPath(Character character) {
-        System.out.println(character);
+    public void initDFSPath(Character character) {
+        //System.out.println(character);
 
         Vertex start = graph.getVertexByLocation(character.getLocation());
         path = new CircularQueue<>(graph.getListVertex().size());

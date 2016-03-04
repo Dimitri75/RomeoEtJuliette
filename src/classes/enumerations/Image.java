@@ -7,7 +7,9 @@ public enum Image {
     PANDA("res/images/panda.png"),
     RACCOON("res/images/raccoon.png"),
 
-    OBSTACLE("res/images/obstacle.png");
+    OBSTACLE("res/images/obstacle.png"),
+    OBSTACLE1("res/images/obstacle1.png"),
+    OBSTACLE2("res/images/obstacle2.png");
 
     private String name = "";
 

@@ -31,6 +31,15 @@ public class MapElement implements ILocation {
         getShape().setFill(new ImagePattern(new javafx.scene.image.Image(image.toString())));
     }
 
+    public MapElement(int x, int y, int shapeSize, javafx.scene.image.Image image) {
+        shape = new Rectangle(shapeSize, shapeSize);
+        this.x = x;
+        this.y = y;
+        shape.setX(x);
+        shape.setY(y);
+        getShape().setFill(new ImagePattern(image));
+    }
+
     public Rectangle getShape() {
         return shape;
     }

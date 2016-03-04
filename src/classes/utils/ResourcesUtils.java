@@ -2,16 +2,20 @@ package classes.utils;
 
 import classes.enumerations.Sprite;
 import classes.list.CircularQueue;
+import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 import java.io.File;
 import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by Dimitri on 01/11/2015.
  */
 public class ResourcesUtils {
     public static ResourcesUtils INSTANCE = null;
+    private HashMap<Integer, Image> obstaclesDictionnary;
 
     public static ResourcesUtils getInstance(){
         if (INSTANCE == null)
@@ -21,6 +25,15 @@ public class ResourcesUtils {
     }
 
     private ResourcesUtils(){
+        obstaclesDictionnary = new HashMap<>();
+
+        obstaclesDictionnary.put(0, new Image(classes.enumerations.Image.OBSTACLE1.toString()));
+        obstaclesDictionnary.put(1, new Image(classes.enumerations.Image.OBSTACLE2.toString()));
+    }
+
+    public Image getObstacle(){
+        Random random = new Random();
+        return obstaclesDictionnary.get(random.nextInt(2) % 2);
     }
 
     public AbstractMap.SimpleEntry<CircularQueue<ImagePattern>, CircularQueue<ImagePattern>> getFrames(Sprite sprite){
