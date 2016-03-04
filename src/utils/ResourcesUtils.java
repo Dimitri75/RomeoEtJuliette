@@ -5,6 +5,7 @@ import enumerations.EnumSprite;
 import list.CircularQueue;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import sun.font.FileFont;
 
 import java.io.File;
 import java.util.AbstractMap;
@@ -47,28 +48,28 @@ public class ResourcesUtils {
      * @return
      */
     public AbstractMap.SimpleEntry<CircularQueue<ImagePattern>, CircularQueue<ImagePattern>> getFrames(EnumSprite sprite){
-        File spriteDirectory = new File("src", sprite.toString());
-        File leftFrames = new File(spriteDirectory, "LEFT");
-        File rightFrames = new File(spriteDirectory, "RIGHT");
+        String uri_left = sprite.toString() + "/LEFT";
+        String uri_right = sprite.toString() + "/RIGHT";
 
-        if (!spriteDirectory.exists() || !leftFrames.exists() || !rightFrames.exists())
-            return null;
-
-        return new AbstractMap.SimpleEntry(getFilledQueue(leftFrames), getFilledQueue(rightFrames));
+        return new AbstractMap.SimpleEntry(getFilledQueue(uri_left), getFilledQueue(uri_right));
     }
 
     /**
      * Returns a CircularQueue containing all the images in the given folder
-     * @param directory
+     * @param uri
      * @return
      */
-    public CircularQueue<ImagePattern> getFilledQueue(File directory){
-        if (!directory.exists()) return null;
+    public CircularQueue<ImagePattern> getFilledQueue(String uri){
+        String url = getClass().getClassLoader().getResource(uri).getFile();
+
+        File directory = new File(url);
+        if (!directory.exists())
+            return null;
 
         CircularQueue<ImagePattern> circularQueue = new CircularQueue<>(directory.listFiles().length);
         String path;
         for (File file : directory.listFiles()){
-            path = file.getPath().replace("src\\", "");
+            path = getClass().getClassLoader().getResource(uri + "/" + file.getName()).toString();
             circularQueue.addAndReturn(new ImagePattern(new javafx.scene.image.Image(path)));
         }
         return circularQueue;

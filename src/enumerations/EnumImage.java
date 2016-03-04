@@ -4,12 +4,12 @@ package enumerations;
  * Created by Dimitri on 01/11/2015.
  */
 public enum EnumImage {
-    PANDA("res/images/panda.png"),
-    RACCOON("res/images/raccoon.png"),
+    PANDA("images/panda.png"),
+    RACCOON("images/raccoon.png"),
 
-    OBSTACLE("res/images/obstacle.png"),
-    OBSTACLE1("res/images/obstacle1.png"),
-    OBSTACLE2("res/images/obstacle2.png");
+    OBSTACLE("images/obstacle.png"),
+    OBSTACLE1("images/obstacle1.png"),
+    OBSTACLE2("images/obstacle2.png");
 
     private String name = "";
 

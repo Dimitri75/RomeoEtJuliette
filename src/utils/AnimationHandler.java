@@ -3,8 +3,8 @@ package utils;
 import element.Character;
 import enumerations.EnumPosition;
 import enumerations.EnumSprite;
-import list.CircularQueue;
 import javafx.scene.paint.ImagePattern;
+import list.CircularQueue;
 
 import java.util.Timer;
 

@@ -4,8 +4,8 @@ package enumerations;
  * Created by Dimitri on 03/03/2016.
  */
 public enum EnumSprite {
-    RACCOON_SPRITE("res/images/sprite_raccoon"),
-    PANDA_SPRITE("res/images/sprite_panda");
+    RACCOON_SPRITE("images/sprite_raccoon"),
+    PANDA_SPRITE("images/sprite_panda");
 
 
     private String name = "";

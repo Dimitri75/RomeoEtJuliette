@@ -1,8 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="RomeoEtJuliette" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/sample.fxml" afterPath="$PROJECT_DIR$/src/sample/sample.fxml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/RomeoEtJuliette.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/obstacle.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/obstacle1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/obstacle2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/panda.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/raccoon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/LEFT/walk4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_panda/RIGHT/walk4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/LEFT/walk4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/res/images/sprite_raccoon/RIGHT/walk4.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/enumerations/EnumImage.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/enumerations/EnumImage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/sample/Controller$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RomeoEtJuliette/utils/ResourcesUtils.class" afterPath="$PROJECT_DIR$/out/production/RomeoEtJuliette/utils/ResourcesUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RomeoEtJuliette.iml" afterPath="$PROJECT_DIR$/RomeoEtJuliette.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/enumerations/EnumImage.java" afterPath="$PROJECT_DIR$/src/enumerations/EnumImage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/enumerations/EnumSprite.java" afterPath="$PROJECT_DIR$/src/enumerations/EnumSprite.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/AnimationHandler.java" afterPath="$PROJECT_DIR$/src/utils/AnimationHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/ResourcesUtils.java" afterPath="$PROJECT_DIR$/src/utils/ResourcesUtils.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/obstacle.png" afterPath="$PROJECT_DIR$/res/images/obstacle.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/obstacle1.png" afterPath="$PROJECT_DIR$/res/images/obstacle1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/obstacle2.png" afterPath="$PROJECT_DIR$/res/images/obstacle2.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/panda.png" afterPath="$PROJECT_DIR$/res/images/panda.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/raccoon.png" afterPath="$PROJECT_DIR$/res/images/raccoon.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk2.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk3.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/LEFT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/LEFT/walk4.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk2.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk3.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_panda/RIGHT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_panda/RIGHT/walk4.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk2.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk3.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/LEFT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/LEFT/walk4.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk1.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk1.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk2.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk2.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk3.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk3.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/res/images/sprite_raccoon/RIGHT/walk4.png" afterPath="$PROJECT_DIR$/res/images/sprite_raccoon/RIGHT/walk4.png" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,56 +129,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
+      <file leaf-file-name="ResourcesUtils.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/utils/ResourcesUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sample.fxml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.54810995">
-              <caret line="43" column="136" selection-start-line="43" selection-start-column="136" selection-end-line="43" selection-end-column="136" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.1208792">
+              <caret line="71" column="97" selection-start-line="71" selection-start-column="97" selection-end-line="71" selection-end-column="97" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EnumGraph.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/enumerations/EnumGraph.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.6666665">
-              <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EnumImage.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/enumerations/EnumImage.java">
+      <file leaf-file-name="FXMLLoader.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../JDK/jdk1.8.0_60/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <caret line="1772" column="0" selection-start-line="1772" selection-start-column="0" selection-end-line="1772" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -128,53 +153,8 @@
         <entry file="file://$PROJECT_DIR$/src/enumerations/EnumSprite.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+              <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EnumPosition.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/enumerations/EnumPosition.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="21" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Edge.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/graph/Edge.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Vertex.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/graph/Vertex.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Graph.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/graph/Graph.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="11" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="11" />
-              <folding>
-                <element signature="e#1623#1624#0" expanded="true" />
-                <element signature="e#1685#1686#0" expanded="true" />
-                <element signature="e#3935#3943#0" expanded="true" />
-                <element signature="e#4781#4789#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -205,11 +185,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/classes/NumberFixedLengthFifo.java" />
-        <option value="$PROJECT_DIR$/src/classes/main.java" />
-        <option value="$PROJECT_DIR$/src/classes/BindedCircularQueue.java" />
         <option value="$PROJECT_DIR$/src/classes/Main.java" />
-        <option value="$PROJECT_DIR$/src/utils/ResourcesUtils.java" />
         <option value="$PROJECT_DIR$/src/classes/Pigeon.java" />
         <option value="$PROJECT_DIR$/src/enumerations/FoodState.java" />
         <option value="$PROJECT_DIR$/src/enumerations/Image.java" />
@@ -256,6 +232,10 @@
         <option value="$PROJECT_DIR$/src/graph/Vertex.java" />
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/sample.fxml" />
+        <option value="$PROJECT_DIR$/src/enumerations/EnumImage.java" />
+        <option value="$PROJECT_DIR$/src/enumerations/EnumSprite.java" />
+        <option value="$PROJECT_DIR$/src/utils/AnimationHandler.java" />
+        <option value="$PROJECT_DIR$/src/utils/ResourcesUtils.java" />
       </list>
     </option>
   </component>
@@ -358,6 +338,10 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -374,6 +358,56 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="sample" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RomeoJuliette" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RomeoJuliette" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RomeoJuliette" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RomeoJuliette" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="enumerations" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RomeoJuliette" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RomeoJuliette" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -439,7 +473,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="js-jscs-nodeInterpreter" value="D:\DEV\NODEJS\NODEJS\node.exe" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -455,6 +489,7 @@
       <recent name="classes.utils" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\DEV\JAVA\WORKSPACES\workspace-java\RomeoJuliette" />
       <recent name="D:\DEV\JAVA\WORKSPACES\workspace-java\RomeoJuliette\src\res\images" />
     </key>
   </component>
@@ -896,12 +931,12 @@
       <workItem from="1457016543505" duration="2594000" />
       <workItem from="1457021243383" duration="11997000" />
       <workItem from="1457033468316" duration="26918000" />
-      <workItem from="1457089788535" duration="12392000" />
+      <workItem from="1457089788535" duration="18177000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="193190000" />
+    <option name="totallyTimeSpent" value="198975000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -959,10 +994,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/utils/ResourcesUtils.java</url>
+          <line>62</line>
+          <properties />
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="100" />
+      <option name="time" value="110" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1060,11 +1103,6 @@
         <state vertical-scroll-proportion="0.33233082">
           <caret line="1770" column="0" selection-start-line="1770" selection-start-column="0" selection-end-line="1770" selection-end-column="0" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/res/images/obstacle.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/../../../JDK/CURRENT/src.zip!/java/lang/Runnable.java">
@@ -1766,14 +1804,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../JDK/jdk1.8.0_60/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="30.592592">
-          <caret line="1772" column="0" selection-start-line="1772" selection-start-column="0" selection-end-line="1772" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../../../JDK/jdk1.8.0_60/javafx-src.zip!/javafx/scene/shape/Rectangle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
@@ -1810,22 +1840,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="198" column="6" selection-start-line="198" selection-start-column="6" selection-end-line="198" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/ResourcesUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/AnimationHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="78" selection-start-line="24" selection-start-column="78" selection-end-line="24" selection-end-column="78" />
           <folding />
         </state>
       </provider>
@@ -1881,22 +1895,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/enumerations/EnumImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/enumerations/EnumSprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/enumerations/EnumPosition.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1928,26 +1926,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/graph/Vertex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.39045936">
           <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1957,8 +1937,76 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54810995">
+        <state vertical-scroll-proportion="-5.8">
           <caret line="43" column="136" selection-start-line="43" selection-start-column="136" selection-end-line="43" selection-end-column="136" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12014134">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="114" column="0" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/enumerations/EnumImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18021202">
+          <caret line="6" column="11" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../JDK/jdk1.8.0_60/javafx-src.zip!/javafx/scene/image/Image.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33215547">
+          <caret line="606" column="11" selection-start-line="606" selection-start-column="11" selection-end-line="606" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/AnimationHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27915195">
+          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/enumerations/EnumSprite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="44" selection-start-line="6" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../JDK/jdk1.8.0_60/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1772" column="0" selection-start-line="1772" selection-start-column="0" selection-end-line="1772" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/ResourcesUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1208792">
+          <caret line="71" column="97" selection-start-line="71" selection-start-column="97" selection-end-line="71" selection-end-column="97" />
           <folding />
         </state>
       </provider>
@@ -1969,10 +2017,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>RomeoEtJuliette</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
