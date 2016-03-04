@@ -216,7 +216,7 @@ public class Controller {
     public void romeoLooksForJuliette(){
         try {
             stopMovements();
-            initDFSPath(panda);
+            initPath(panda);
 
             startJulietteTimer();
             startTimerQ2();
@@ -279,7 +279,7 @@ public class Controller {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    //animateJuliette();
+                    animateJuliette();
                     walkRandomly(raccoon);
                 });
             }
@@ -418,7 +418,7 @@ public class Controller {
     }
 
 
-    public void DFS(Vertex currentVertex, List<Vertex> allVertices){
+    public void browseAdjacencies(Vertex currentVertex, List<Vertex> allVertices){
         //System.out.println(currentVertex.getLocation());
         path.push(currentVertex);
         allVertices.remove(currentVertex);
@@ -428,16 +428,16 @@ public class Controller {
 
         for (Edge e : currentVertex.getAdjacencies()) {
             if (allVertices.contains(e.getTarget())) {
-                DFS(e.getTarget(), allVertices);
+                browseAdjacencies(e.getTarget(), allVertices);
             }
         }
     }
 
-    public void initDFSPath(Character character) {
+    public void initPath(Character character) {
         //System.out.println(character);
 
         Vertex start = graph.getVertexByLocation(character.getLocation());
         path = new CircularQueue<>(graph.getListVertex().size());
-        DFS(start, new ArrayList<>(graph.getListVertex()));
+        browseAdjacencies(start, new ArrayList<>(graph.getListVertex()));
     }
 }
