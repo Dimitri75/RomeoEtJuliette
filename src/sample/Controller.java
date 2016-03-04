@@ -218,7 +218,7 @@ public class Controller {
     public void romeoLooksForJuliette(){
         try {
             stopMovements();
-            initPath(panda);
+            initPathTo(raccoon);
 
             startJulietteTimer();
             startTimerQ2();
@@ -420,9 +420,8 @@ public class Controller {
     }
 
 
-    public void browseAdjacencies(Vertex currentVertex, List<Vertex> allVertices){
-        //System.out.println(currentVertex.getLocation());
-        path.push(currentVertex);
+    public void browseDFS(Vertex currentVertex, List<Vertex> allVertices){
+        path.addAndReturn(currentVertex);
         allVertices.remove(currentVertex);
 
         if (allVertices.isEmpty())
@@ -430,16 +429,33 @@ public class Controller {
 
         for (Edge e : currentVertex.getAdjacencies()) {
             if (allVertices.contains(e.getTarget())) {
-                browseAdjacencies(e.getTarget(), allVertices);
+                browseDFS(e.getTarget(), allVertices);
             }
         }
     }
 
-    public void initPath(Character character) {
-        //System.out.println(character);
-        
+    public void initPathTo(Character character) {
         Vertex start = graph.getVertexByLocation(character.getLocation());
         path = new CircularQueue<>(graph.getListVertex().size());
-        browseAdjacencies(start, new ArrayList<>(graph.getListVertex()));
+        browseBFS(start, new ArrayList<>(graph.getListVertex()));
+    }
+
+    public void browseBFS(Vertex start, List<Vertex> allVertices){
+        LinkedList<Vertex> queue = new LinkedList<>();
+        queue.add(start);
+        allVertices.remove(start);
+
+        Vertex current, neighbor;
+        while (!queue.isEmpty()) {
+            current = path.addAndReturn(queue.poll());
+
+            for (Edge edge : current.getAdjacencies()) {
+                neighbor = edge.getTarget();
+                if (allVertices.contains(neighbor)) {
+                    queue.add(neighbor);
+                    allVertices.remove(neighbor);
+                }
+            }
+        }
     }
 }

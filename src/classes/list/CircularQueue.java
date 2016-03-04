@@ -17,11 +17,13 @@ public class CircularQueue<T> extends LinkedList<T>{
         return fixedSize;
     }
 
-    public void push(T o){
+    public T addAndReturn(T o){
         addLast(o);
 
         if (size() > fixedSize)
             removeFirst();
+
+        return o;
     }
 
     public T popFirstAndRepushAtTheEnd(){
@@ -30,7 +32,7 @@ public class CircularQueue<T> extends LinkedList<T>{
         return o;
     }
 
-    public T pushAndPopExcedent(T o){
+    public T addAndPopExcedent(T o){
         addLast(o);
 
         if (size() > fixedSize) {

@@ -55,7 +55,7 @@ public class ResourcesUtils {
         String path;
         for (File file : directory.listFiles()){
             path = file.getPath().replace("src\\", "");
-            circularQueue.push(new ImagePattern(new javafx.scene.image.Image(path)));
+            circularQueue.addAndReturn(new ImagePattern(new javafx.scene.image.Image(path)));
         }
         return circularQueue;
     }
