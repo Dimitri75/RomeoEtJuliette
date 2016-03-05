@@ -160,6 +160,9 @@ public class Graph {
             if (mode.equals(EnumMode.DEBUG))
                 Controller.addLocationToMark(current.getLocation(), debugColor);
 
+            if (current.equals(destination))
+                return getShortestPath(destination);
+
             for (Edge e : current.getAdjacencies()) {
                 Vertex targetVertex = e.getTarget();
                 double distanceThroughCurrent = current.getMinDistance() + e.getWeight();

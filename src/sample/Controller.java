@@ -79,11 +79,11 @@ public class Controller {
     @FXML
     public void start_simpleDijkstra() {
         displayButtons(false);
-        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getX(), raccoon.getY()));
+        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getX(), raccoon.getY()), mode);
     }
 
     @FXML
-    public void start_dijkstraToEachOther() {
+    public void start_multipleBFS() {
         displayButtons(false);
         romeoAndJulietteFindEachOther();
     }
@@ -221,7 +221,7 @@ public class Controller {
      * Starts simulation where Romeo run the shortest path to the given destination
      * @param destination
      */
-    public void romeoRunTheShortestPathToVertex(Vertex destination){
+    public void romeoRunTheShortestPathToVertex(Vertex destination, EnumMode mode){
         stopRomeo();
 
         Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
@@ -246,13 +246,19 @@ public class Controller {
             Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
             Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
 
+            /*********************/
             //TODO FIX MULTIPLE BFS
-            //graph.multipleBFS(mode, graph.getVertexByLocation(panda.getLocation()), graph.getVertexByLocation(raccoon.getLocation()));
+            Vertex UNUSED = graph.multipleBFS(mode, graph.getVertexByLocation(panda.getLocation()), graph.getVertexByLocation(raccoon.getLocation()));
+
+
+
+            /**********************/
+        
 
             Vertex destination = getDestinationBetweenVertexes(romeoVertex, julietteVertex);
 
-            panda.initPath(graph, romeoVertex, destination, mode);
-            raccoon.initPath(graph, julietteVertex, destination, mode);
+            panda.initPath(graph, romeoVertex, destination, EnumMode.NORMAL);
+            raccoon.initPath(graph, julietteVertex, destination, EnumMode.NORMAL);
             startDebugTimer();
 
             romeoThread = new Thread(panda);
@@ -366,7 +372,7 @@ public class Controller {
                 Platform.runLater(() -> {
                     if (areLocationsClose(panda.getLocation(), raccoon.getLocation())){
                         stopJuliette();
-                        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getLocation()));
+                        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getLocation()), EnumMode.NORMAL);
                         cancelTimer(timerBrowser);
                     }
 
@@ -381,7 +387,7 @@ public class Controller {
                             panda.setLocation(location);
                         }
                         else {
-                            romeoRunTheShortestPathToVertex(graph.getVertexByLocation(location));
+                            romeoRunTheShortestPathToVertex(graph.getVertexByLocation(location), EnumMode.NORMAL);
                         }
                     }
                 });
@@ -548,6 +554,7 @@ public class Controller {
             rectangle.setY(location.getY());
             rectangle.setFill(color);
             rectangle.setOpacity(0.5);
+            rectangle.setStroke(color.LIGHTGRAY);
             anchorPane.getChildren().add(rectangle);
             markedLocations.add(rectangle);
         });
@@ -575,6 +582,7 @@ public class Controller {
         rectangle.setX(location.getX());
         rectangle.setY(location.getY());
         rectangle.setFill(color);
+        rectangle.setStroke(color.LIGHTGRAY);
         rectangle.setOpacity(0.5);
 
         locationsToMark.add(rectangle);
