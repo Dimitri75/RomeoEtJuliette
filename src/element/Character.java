@@ -43,12 +43,16 @@ public class Character extends MapElement implements Runnable {
         return enumPosition;
     }
 
-    public void initPath(Graph graph, Vertex start, Vertex destination, EnumMode mode) {
+    public void initPathDijkstra(Graph graph, Vertex start, Vertex destination, EnumMode mode) {
         actionDone = false;
 
         if (path != null)
             path.clear();
         path = graph.dijkstra(start, destination, mode);
+    }
+
+    public void initPath(List<Vertex> path) {
+        this.path = path;
     }
 
     public void setLocation(Location location){

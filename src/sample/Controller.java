@@ -14,8 +14,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -44,7 +42,7 @@ public class Controller {
     private Timer julietteTimer, timer, timerBrowser, debugTimer;
     private AnimationHandler julietteAnimation, romeoAnimation;
     private Graph graph;
-    private Character panda, raccoon;
+    private Character romeo, juliette;
     private Thread romeoThread, julietteThread;
     private CircularQueue<Vertex> path;
     private List<Rectangle> markedLocations = new ArrayList<>();
@@ -79,7 +77,7 @@ public class Controller {
     @FXML
     public void start_simpleDijkstra() {
         displayButtons(false);
-        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getX(), raccoon.getY()), mode);
+        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(juliette.getX(), juliette.getY()), mode);
     }
 
     @FXML
@@ -145,11 +143,11 @@ public class Controller {
      */
     public void initRomeoAndJuliette() {
         try {
-            panda = new Character(0, 0, PACE, EnumImage.PANDA);
-            raccoon = new Character(0, 0, PACE, EnumImage.RACCOON);
+            romeo = new Character(0, 0, PACE, EnumImage.PANDA);
+            juliette = new Character(0, 0, PACE, EnumImage.RACCOON);
 
-            initCharacter(panda);
-            initCharacter(raccoon);
+            initCharacter(romeo);
+            initCharacter(juliette);
         } catch (Exception e) {
             label_error.setText("Bravo ! Maintenant c'est cassé. :(");
         }
@@ -206,14 +204,14 @@ public class Controller {
 
         stopMovements();
 
-        if (panda != null) {
-            anchorPane.getChildren().remove(panda.getShape());
-            panda = null;
+        if (romeo != null) {
+            anchorPane.getChildren().remove(romeo.getShape());
+            romeo = null;
         }
 
-        if (raccoon != null) {
-            anchorPane.getChildren().remove(raccoon.getShape());
-            raccoon = null;
+        if (juliette != null) {
+            anchorPane.getChildren().remove(juliette.getShape());
+            juliette = null;
         }
     }
 
@@ -224,11 +222,11 @@ public class Controller {
     public void romeoRunTheShortestPathToVertex(Vertex destination, EnumMode mode){
         stopRomeo();
 
-        Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-        panda.initPath(graph, romeoVertex, destination, mode);
+        Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
+        romeo.initPathDijkstra(graph, romeoVertex, destination, mode);
         startDebugTimer();
 
-        romeoThread = new Thread(panda);
+        romeoThread = new Thread(romeo);
 
         startGlobalTimer();
         romeoThread.start();
@@ -243,26 +241,28 @@ public class Controller {
         try {
             stopMovements();
 
-            Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-            Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
+            Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
+            Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
 
             /*********************/
             //TODO FIX MULTIPLE BFS
-            Vertex UNUSED = graph.multipleBFS(mode, graph.getVertexByLocation(panda.getLocation()), graph.getVertexByLocation(raccoon.getLocation()));
+            if (graph.multipleBFS(mode, graph.getVertexByLocation(romeo.getLocation()), graph.getVertexByLocation(juliette.getLocation())) != null){
+                //init paths
+            }
+            startDebugTimer();
+
 
 
 
             /**********************/
 
 
-            Vertex destination = getDestinationBetweenVertexes(romeoVertex, julietteVertex);
+            Vertex destination = getDestinationBetweenVertexes(romeoVertex, julietteVertex, EnumMode.NORMAL);
+            romeo.initPathDijkstra(graph, romeoVertex, destination, EnumMode.NORMAL);
+            juliette.initPathDijkstra(graph, julietteVertex, destination, EnumMode.NORMAL);
 
-            panda.initPath(graph, romeoVertex, destination, EnumMode.NORMAL);
-            raccoon.initPath(graph, julietteVertex, destination, EnumMode.NORMAL);
-            startDebugTimer();
-
-            romeoThread = new Thread(panda);
-            julietteThread = new Thread(raccoon);
+            romeoThread = new Thread(romeo);
+            julietteThread = new Thread(juliette);
 
             startGlobalTimer();
             romeoThread.start();
@@ -281,7 +281,7 @@ public class Controller {
     public void romeoLooksForJuliette(EnumGraph enumGraph){
         try {
             stopMovements();
-            initBrowsingPathFrom(raccoon, enumGraph);
+            initBrowsingPathFrom(juliette, enumGraph);
 
             startJulietteTimer();
             startTimerBrowser();
@@ -334,7 +334,7 @@ public class Controller {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    if (panda.isActionDone() && raccoon.isActionDone())
+                    if (romeo.isActionDone() && juliette.isActionDone())
                         cancelTimer(romeoAnimation, julietteAnimation, timer);
                 });
             }
@@ -353,7 +353,7 @@ public class Controller {
             public void run() {
                 Platform.runLater(() -> {
                     animateJuliette();
-                    walkRandomly(raccoon);
+                    walkRandomly(juliette);
                 });
             }
         }, 0, 300);
@@ -370,21 +370,21 @@ public class Controller {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    if (areLocationsClose(panda.getLocation(), raccoon.getLocation())){
+                    if (areLocationsClose(romeo.getLocation(), juliette.getLocation())){
                         stopJuliette();
-                        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(raccoon.getLocation()), EnumMode.NORMAL);
+                        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(juliette.getLocation()), EnumMode.NORMAL);
                         cancelTimer(timerBrowser);
                     }
 
-                    if (panda.isActionDone()){
+                    if (romeo.isActionDone()){
                         Location location = path.popFirstAndRepushAtTheEnd().getLocation();
 
-                        if (((location.getX() - panda.getX() == PACE || location.getX() - panda.getX() == -PACE)
-                                && location.getY() == panda.getY()) ||
-                                ((location.getY() - panda.getY() == PACE || location.getY() - panda.getY() == -PACE)
-                                        && location.getX() == panda.getX())){
+                        if (((location.getX() - romeo.getX() == PACE || location.getX() - romeo.getX() == -PACE)
+                                && location.getY() == romeo.getY()) ||
+                                ((location.getY() - romeo.getY() == PACE || location.getY() - romeo.getY() == -PACE)
+                                        && location.getX() == romeo.getX())){
                             animateRomeo();
-                            panda.setLocation(location);
+                            romeo.setLocation(location);
                         }
                         else {
                             romeoRunTheShortestPathToVertex(graph.getVertexByLocation(location), EnumMode.NORMAL);
@@ -443,7 +443,7 @@ public class Controller {
      * @param v2
      * @return
      */
-    public Vertex getDestinationBetweenVertexes(Vertex v1, Vertex v2){
+    public Vertex getDestinationBetweenVertexes(Vertex v1, Vertex v2, EnumMode mode){
         List<Vertex> path = graph.dijkstra(v1, v2, mode);
         startDebugTimer();
 
@@ -494,7 +494,7 @@ public class Controller {
             romeoAnimation.cancel();
         }
 
-        romeoAnimation = new AnimationHandler(panda, EnumSprite.PANDA_SPRITE);
+        romeoAnimation = new AnimationHandler(romeo, EnumSprite.PANDA_SPRITE);
         romeoAnimation.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -512,7 +512,7 @@ public class Controller {
             julietteAnimation.cancel();
         }
 
-        julietteAnimation = new AnimationHandler(raccoon, EnumSprite.RACCOON_SPRITE);
+        julietteAnimation = new AnimationHandler(juliette, EnumSprite.RACCOON_SPRITE);
         julietteAnimation.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

@@ -190,20 +190,17 @@ public class Graph {
 
     public Vertex multipleBFS(EnumMode mode, Vertex... vertex) {
         reinitVertices();
-
         List<Vertex> vertices = new ArrayList<>();
-        Integer cptVisited;
-        HashMap<Vertex, Integer> visitedVertices = new HashMap<>();
+        List<Vertex> visitors;
+        HashMap<Vertex, List<Vertex>> visitedVertices = new HashMap<>();
         HashMap<Vertex, LinkedList<Vertex>> verticesMap = new HashMap<>();
 
         for (Vertex v : vertex) {
             v.setMinDistance(0.);
             verticesMap.put(v, new LinkedList<>());
             verticesMap.get(v).add(v);
-
-            cptVisited = visitedVertices.get(v);
-            visitedVertices.put(v, (cptVisited == null ? 1 : cptVisited + 1));
             vertices.add(v);
+            visitNode(v, v, visitedVertices, mode, EnumColor.getColorAt(vertices.indexOf(v)));
         }
 
         Vertex current, neighbor, toRemove = null;
@@ -211,39 +208,49 @@ public class Graph {
         LinkedList<Vertex> queue;
 
         while (!vertices.isEmpty()) {
-            for (int i = 0; i < vertices.size(); i++) {
-                Vertex v = vertices.get(i);
-
+            for (Vertex explorator : vertices) {
                 toRemove = null;
-                queue = verticesMap.get(v);
+                queue = verticesMap.get(explorator);
 
                 if ((current = queue.poll()) != null) {
-                    if (mode.equals(EnumMode.DEBUG))
-                        Controller.addLocationToMark(current.getLocation(), EnumColor.getColorAt(i));
-
-                    if (visitedVertices.get(current) == vertex.length)
-                        return current;
 
                     for (Edge edge : current.getAdjacencies()) {
                         neighbor = edge.getTarget();
-                        distanceThroughCurrent = current.getMinDistance() + edge.getWeight();
+                        visitors = visitedVertices.get(neighbor);
+                        distanceThroughCurrent = neighbor.getMinDistance() + edge.getWeight();
 
-                        if (distanceThroughCurrent < neighbor.getMinDistance()) {
+                        if ((visitors == null || !visitors.contains(explorator)) && distanceThroughCurrent <= neighbor.getMinDistance()){
                             neighbor.setMinDistance(distanceThroughCurrent);
                             neighbor.setPrevious(current);
-                            queue.add(neighbor);
+                            visitNode(neighbor, explorator, visitedVertices, mode, EnumColor.getColorAt(vertices.indexOf(explorator)));
 
-                            cptVisited = visitedVertices.get(neighbor);
-                            visitedVertices.put(neighbor, (cptVisited == null ? 1 : cptVisited + 1));
+                            if (visitedVertices.get(neighbor) != null && visitedVertices.get(neighbor).size() == vertex.length)
+                                return neighbor;
+
+                            queue.add(neighbor);
                         }
                     }
-                }
-                else toRemove = v;
+                } else toRemove = explorator;
             }
             if (toRemove != null)
                 vertices.remove(toRemove);
         }
         return null;
+    }
+
+    public List<Vertex> visitNode(Vertex node, Vertex visitor, HashMap<Vertex, List<Vertex>> visitedVertices, EnumMode mode, Color debugColor){
+        List<Vertex> visitors = visitedVertices.get(node);
+
+        if (visitors == null)
+            visitors = new ArrayList<>();
+
+        visitors.add(visitor);
+        visitedVertices.put(node, visitors);
+
+        if (mode.equals(EnumMode.DEBUG))
+            Controller.addLocationToMark(node.getLocation(), debugColor);
+
+        return visitors;
     }
 
     public void loopToEnqueueAllAdjacencies(Vertex vertex, List<Vertex> visitedVertices, LinkedList<Vertex> queue, LinkedList<Vertex> path, EnumMode mode, Color debugColor){

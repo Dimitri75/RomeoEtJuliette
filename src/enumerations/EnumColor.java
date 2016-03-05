@@ -14,7 +14,6 @@ public enum EnumColor {
     ORANGE(Color.CHOCOLATE, 3),
     YELLOW(Color.BLUE, 4);
 
-
     private Color color;
     private int index;
 
