@@ -246,12 +246,11 @@ public class Controller {
 
             /*********************/
             //TODO FIX MULTIPLE BFS
-            if (graph.multipleBFS(mode, graph.getVertexByLocation(romeo.getLocation()), graph.getVertexByLocation(juliette.getLocation())) != null){
-                //init paths
+            Map<Vertex, List<Vertex>> paths;
+            if ((paths = graph.multipleBFS(mode, graph.getVertexByLocation(romeo.getLocation()), graph.getVertexByLocation(juliette.getLocation()))) != null){
+
             }
             startDebugTimer();
-
-
 
 
             /**********************/

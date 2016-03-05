@@ -146,7 +146,6 @@ public class Graph {
      */
     public List<Vertex> dijkstra(Vertex start, Vertex destination, EnumMode mode) {
         Color debugColor = EnumColor.getColorAt(-1);
-
         reinitVertices();
 
         // ComputePaths
@@ -188,32 +187,35 @@ public class Graph {
         return path;
     }
 
-    public Vertex multipleBFS(EnumMode mode, Vertex... vertex) {
-        reinitVertices();
-        List<Vertex> vertices = new ArrayList<>();
+    public Map<Vertex, List<Vertex>> multipleBFS(EnumMode mode, Vertex... vertex) {
+        List<Vertex> listExplorators = new ArrayList<>();
+        Map<Vertex, List<Vertex>> visitedVertices = new HashMap<>();
+        Map<Vertex, LinkedList<Vertex>> verticesMap = new HashMap<>();
+
         List<Vertex> visitors;
-        HashMap<Vertex, List<Vertex>> visitedVertices = new HashMap<>();
-        HashMap<Vertex, LinkedList<Vertex>> verticesMap = new HashMap<>();
-
-        for (Vertex v : vertex) {
-            v.setMinDistance(0.);
-            verticesMap.put(v, new LinkedList<>());
-            verticesMap.get(v).add(v);
-            vertices.add(v);
-            visitNode(v, v, visitedVertices, mode, EnumColor.getColorAt(vertices.indexOf(v)));
-        }
-
         Vertex current, neighbor, toRemove = null;
         double distanceThroughCurrent;
         LinkedList<Vertex> queue;
 
-        while (!vertices.isEmpty()) {
-            for (Vertex explorator : vertices) {
-                toRemove = null;
+        reinitVertices();
+        for (Vertex explorator : vertex) {
+            listExplorators.add(explorator);
+            verticesMap.put(explorator, new LinkedList<>());
+
+            queue = verticesMap.get(explorator);
+
+            explorator.setMinDistance(0.);
+            queue.add(explorator);
+
+            visitVertex(explorator, explorator, visitedVertices, mode, EnumColor.getColorAt(listExplorators.indexOf(explorator)));
+        }
+
+        while (!listExplorators.isEmpty()) {
+            for (Vertex explorator : listExplorators) {
                 queue = verticesMap.get(explorator);
+                toRemove = null;
 
                 if ((current = queue.poll()) != null) {
-
                     for (Edge edge : current.getAdjacencies()) {
                         neighbor = edge.getTarget();
                         visitors = visitedVertices.get(neighbor);
@@ -222,10 +224,11 @@ public class Graph {
                         if ((visitors == null || !visitors.contains(explorator)) && distanceThroughCurrent <= neighbor.getMinDistance()){
                             neighbor.setMinDistance(distanceThroughCurrent);
                             neighbor.setPrevious(current);
-                            visitNode(neighbor, explorator, visitedVertices, mode, EnumColor.getColorAt(vertices.indexOf(explorator)));
+
+                            visitVertex(neighbor, explorator, visitedVertices, mode, EnumColor.getColorAt(listExplorators.indexOf(explorator)));
 
                             if (visitedVertices.get(neighbor) != null && visitedVertices.get(neighbor).size() == vertex.length)
-                                return neighbor;
+                                return null;
 
                             queue.add(neighbor);
                         }
@@ -233,24 +236,22 @@ public class Graph {
                 } else toRemove = explorator;
             }
             if (toRemove != null)
-                vertices.remove(toRemove);
+                listExplorators.remove(toRemove);
         }
         return null;
     }
 
-    public List<Vertex> visitNode(Vertex node, Vertex visitor, HashMap<Vertex, List<Vertex>> visitedVertices, EnumMode mode, Color debugColor){
-        List<Vertex> visitors = visitedVertices.get(node);
+    public void visitVertex(Vertex toVisit, Vertex explorator, Map<Vertex, List<Vertex>> visitedVertices, EnumMode mode, Color debugColor){
+        List<Vertex> listVisitors = visitedVertices.get(toVisit);
 
-        if (visitors == null)
-            visitors = new ArrayList<>();
+        if (listVisitors == null)
+            listVisitors = new ArrayList<>();
 
-        visitors.add(visitor);
-        visitedVertices.put(node, visitors);
+        listVisitors.add(explorator);
+        visitedVertices.put(toVisit, listVisitors);
 
         if (mode.equals(EnumMode.DEBUG))
-            Controller.addLocationToMark(node.getLocation(), debugColor);
-
-        return visitors;
+            Controller.addLocationToMark(toVisit.getLocation(), debugColor);
     }
 
     public void loopToEnqueueAllAdjacencies(Vertex vertex, List<Vertex> visitedVertices, LinkedList<Vertex> queue, LinkedList<Vertex> path, EnumMode mode, Color debugColor){

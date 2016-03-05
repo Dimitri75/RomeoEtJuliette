@@ -17,7 +17,15 @@ public class Vertex implements ILocation, Comparable<Vertex> {
 	public Vertex(int x, int y) {
 		this.x = x;
 		this.y = y;
-		adjacencies = new ArrayList<Edge>();
+		adjacencies = new ArrayList<>();
+	}
+
+	public Vertex(Vertex vertex) {
+		this.x = vertex.getX();
+		this.y = vertex.getY();
+		this.previous = vertex.getPrevious();
+		this.minDistance = vertex.getMinDistance();
+		this.adjacencies = vertex.getAdjacencies();
 	}
 
 	public ArrayList<Edge> getAdjacencies(){
