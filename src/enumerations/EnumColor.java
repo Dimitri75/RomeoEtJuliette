@@ -9,10 +9,10 @@ import java.util.Random;
  */
 public enum EnumColor {
     RED(Color.CRIMSON, 0),
-    GREEN(Color.GREENYELLOW, 1),
-    BLUE(Color.CORNFLOWERBLUE, 2),
-    ORANGE(Color.CORAL, 3),
-    YELLOW(Color.INDIANRED, 4);
+    GREEN(Color.BLUEVIOLET, 1),
+    BLUE(Color.GREEN, 2),
+    ORANGE(Color.CHOCOLATE, 3),
+    YELLOW(Color.BLUE, 4);
 
 
     private Color color;

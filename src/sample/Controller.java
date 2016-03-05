@@ -253,7 +253,7 @@ public class Controller {
 
 
             /**********************/
-        
+
 
             Vertex destination = getDestinationBetweenVertexes(romeoVertex, julietteVertex);
 
