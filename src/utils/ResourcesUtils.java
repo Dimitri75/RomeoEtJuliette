@@ -66,7 +66,7 @@ public class ResourcesUtils {
         String path;
         for (int i = 1; i < 5; i++){
             path = uri + "/walk" + i + ".png";
-            circularQueue.addAndReturn(new ImagePattern(new javafx.scene.image.Image(path)));
+            circularQueue.add(new ImagePattern(new javafx.scene.image.Image(path)));
         }
 
 //        String url = getClass().getClassLoader().getResource(uri).getFile();

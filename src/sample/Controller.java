@@ -2,11 +2,10 @@ package sample;
 
 import element.Location;
 import element.MapElement;
-import enumerations.EnumGraph;
-import enumerations.EnumSprite;
+import enumerations.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.VBox;
 import list.CircularQueue;
-import enumerations.EnumImage;
-import enumerations.EnumPosition;
 import graph.Graph;
 import graph.Vertex;
 import element.Character;
@@ -29,21 +28,26 @@ public class Controller {
     @FXML
     private Slider slider_size;
     @FXML
-    private Button button_start, button_start_simpleDijkstra, button_start_dijkstraToEachOther, button_start_DFS, button_start_BFS;
+    private Button button_start, button_restart, button_start_simpleDijkstra, button_start_dijkstraToEachOther, button_start_DFS, button_start_BFS;
+    @FXML
+    private CheckBox checkbox_debug;
+    @FXML
+    private VBox vbox_options;
     @FXML
     private Label label_error;
     @FXML
     private AnchorPane anchorPane;
 
-    private Integer PACE;
+    private static Integer PACE;
 
-    private Timer julietteTimer, timer, timerBrowser;
+    private EnumMode mode;
+    private Timer julietteTimer, timer, timerBrowser, debugTimer;
     private AnimationHandler julietteAnimation, romeoAnimation;
     private Graph graph;
     private Character panda, raccoon;
     private Thread romeoThread, julietteThread;
     private CircularQueue<Vertex> path;
-    private List<Rectangle> markedLocations;
+    private List<Rectangle> markedLocations = new ArrayList<>();
     private List<MapElement> obstaclesList = new ArrayList<>();
 
     public Controller() {
@@ -54,6 +58,22 @@ public class Controller {
         clearAll();
         initMap();
         displayButtons(true);
+
+        if (checkbox_debug.isSelected())
+            mode = EnumMode.DEBUG;
+        else
+            mode = EnumMode.NORMAL;
+
+        vbox_options.setDisable(true);
+        button_restart.setDisable(false);
+    }
+
+    @FXML
+    public void restart(){
+        clearAll();
+        displayButtons(false);
+        vbox_options.setDisable(false);
+        button_restart.setDisable(true);
     }
 
     @FXML
@@ -78,15 +98,6 @@ public class Controller {
     public void start_BFS() {
         displayButtons(false);
         romeoLooksForJuliette(EnumGraph.BFS);
-    }
-
-    @FXML
-    void button_start_onKeyEvent(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.ENTER)) {
-            clearAll();
-            button_start.fire();
-        } else
-            anchorPane.requestFocus();
     }
 
     /**
@@ -214,7 +225,9 @@ public class Controller {
         stopRomeo();
 
         Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
-        panda.initPath(graph, romeoVertex, destination);
+        panda.initPath(graph, romeoVertex, destination, mode);
+        startDebugTimer();
+
         romeoThread = new Thread(panda);
 
         startGlobalTimer();
@@ -233,10 +246,14 @@ public class Controller {
             Vertex romeoVertex = graph.getVertexByLocation(panda.getX(), panda.getY());
             Vertex julietteVertex = graph.getVertexByLocation(raccoon.getX(), raccoon.getY());
 
+            //TODO FIX MULTIPLE BFS
+            //graph.multipleBFS(mode, graph.getVertexByLocation(panda.getLocation()), graph.getVertexByLocation(raccoon.getLocation()));
+
             Vertex destination = getDestinationBetweenVertexes(romeoVertex, julietteVertex);
 
-            panda.initPath(graph, romeoVertex, destination);
-            raccoon.initPath(graph, julietteVertex, destination);
+            panda.initPath(graph, romeoVertex, destination, mode);
+            raccoon.initPath(graph, julietteVertex, destination, mode);
+            startDebugTimer();
 
             romeoThread = new Thread(panda);
             julietteThread = new Thread(raccoon);
@@ -421,7 +438,9 @@ public class Controller {
      * @return
      */
     public Vertex getDestinationBetweenVertexes(Vertex v1, Vertex v2){
-        List<Vertex> path = graph.dijkstra(v1, v2);
+        List<Vertex> path = graph.dijkstra(v1, v2, mode);
+        startDebugTimer();
+
         return path.get(path.size() / 2);
     }
 
@@ -513,7 +532,8 @@ public class Controller {
      */
     public void initBrowsingPathFrom(Character character, EnumGraph enumGraph) {
         Vertex start = graph.getVertexByLocation(character.getLocation());
-        path = enumGraph.equals(EnumGraph.BFS) ? graph.browseBFS(start) : graph.browseDFS(start);
+        path = enumGraph.equals(EnumGraph.BFS) ? graph.browseBFS(start, mode) : graph.browseDFS(start, mode);
+        startDebugTimer();
     }
 
     /**
@@ -522,16 +542,15 @@ public class Controller {
      * @param color
      */
     public void markLocation(Location location, Color color){
-        if (markedLocations == null)
-            markedLocations = new ArrayList<>();
-
-        Rectangle rectangle = new Rectangle(PACE, PACE);
-        rectangle.setX(location.getX());
-        rectangle.setY(location.getY());
-        rectangle.setFill(color);
-        rectangle.setOpacity(0.5);
-        anchorPane.getChildren().add(rectangle);
-        markedLocations.add(rectangle);
+        Platform.runLater(() -> {
+            Rectangle rectangle = new Rectangle(PACE, PACE);
+            rectangle.setX(location.getX());
+            rectangle.setY(location.getY());
+            rectangle.setFill(color);
+            rectangle.setOpacity(0.5);
+            anchorPane.getChildren().add(rectangle);
+            markedLocations.add(rectangle);
+        });
     }
 
     /**
@@ -544,5 +563,43 @@ public class Controller {
             }
             markedLocations.clear();
         }
+
+        if (locationsToMark != null && !locationsToMark.isEmpty()){
+            locationsToMark.clear();
+        }
+    }
+
+    private static LinkedList<Rectangle> locationsToMark = new LinkedList<>();
+    public static void addLocationToMark(Location location, Color color){
+        Rectangle rectangle = new Rectangle(PACE, PACE);
+        rectangle.setX(location.getX());
+        rectangle.setY(location.getY());
+        rectangle.setFill(color);
+        rectangle.setOpacity(0.5);
+
+        locationsToMark.add(rectangle);
+    }
+
+    public void startDebugTimer() {
+        if (!mode.equals(EnumMode.DEBUG))
+            return;
+
+        cancelTimer(debugTimer);
+
+        debugTimer = new Timer();
+        debugTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    if (locationsToMark.isEmpty())
+                        cancelTimer(debugTimer);
+                    else {
+                        Rectangle rectangle = locationsToMark.pop();
+                        anchorPane.getChildren().add(rectangle);
+                        markedLocations.add(rectangle);
+                    }
+                });
+            }
+        }, 0, 50);
     }
 }

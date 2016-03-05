@@ -1,6 +1,7 @@
 package element;
 
 import enumerations.EnumImage;
+import enumerations.EnumMode;
 import enumerations.EnumPosition;
 import graph.Graph;
 import graph.Vertex;
@@ -42,12 +43,12 @@ public class Character extends MapElement implements Runnable {
         return enumPosition;
     }
 
-    public void initPath(Graph graph, Vertex start, Vertex destination) {
+    public void initPath(Graph graph, Vertex start, Vertex destination, EnumMode mode) {
         actionDone = false;
 
         if (path != null)
             path.clear();
-        path = graph.dijkstra(start, destination);
+        path = graph.dijkstra(start, destination, mode);
     }
 
     public void setLocation(Location location){

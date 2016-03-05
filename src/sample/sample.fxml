@@ -12,36 +12,53 @@
                 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/food.png')" /> <!--style="-fx-background-color: rgba(159, 33, 34, 0.67);"-->
                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: rgb(75, 79, 77);">
                     <children>
-                        <Label text="Taille" textFill="WHITE" />
-                        <Slider fx:id="slider_size" prefHeight="10.0" prefWidth="100.0" value="50">
-                            <HBox.margin>
-                                <Insets left="5.0" right="15.0" />
-                            </HBox.margin>
-                        </Slider>
-                        <Button fx:id="button_start" onAction="#start" onKeyPressed="#button_start_onKeyEvent" text="Start" textAlignment="CENTER">
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </Button>
+                  <VBox fx:id="vbox_options" alignment="CENTER" prefHeight="200.0" prefWidth="175.0">
+                     <children>
+                        <CheckBox fx:id="checkbox_debug" mnemonicParsing="false" prefHeight="41.0" prefWidth="111.0" text="Debug" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></CheckBox>
+                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="175.0">
+                           <children>
+                              <Label text="Taille" textFill="WHITE" />
+                                    <Slider fx:id="slider_size" prefHeight="15.0" prefWidth="100.0" value="50" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                         <Label fx:id="label_error" alignment="BOTTOM_CENTER" prefHeight="20.0" textAlignment="CENTER" textFill="white">
 
                         </Label>
-                        <Button fx:id="button_start_simpleDijkstra" onAction="#start_simpleDijkstra" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda travels through the shortest path to Juliette the raccoon who doesn't move." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                              <Button fx:id="button_start" onAction="#start" prefHeight="25.0" prefWidth="60.0" text="Start" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets bottom="3.0" />
+                           </VBox.margin>
+                              </Button>
+                        <Button fx:id="button_restart" disable="true" onAction="#restart" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Restart">
+                           <VBox.margin>
+                              <Insets top="3.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+                        <Button fx:id="button_start_simpleDijkstra" onAction="#start_simpleDijkstra" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda travels through the shortest path to Juliette the raccoon who doesn't move." textAlignment="CENTER" textOverrun="CLIP" visible="false" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_dijkstraToEachOther" onAction="#start_dijkstraToEachOther" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda and Juliette the raccoon travel to each other." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                        <Button fx:id="button_start_dijkstraToEachOther" onAction="#start_dijkstraToEachOther" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda and Juliette the raccoon travel to each other (Multiple BFS)." textAlignment="CENTER" textOverrun="CLIP" visible="false" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_DFS" onAction="#start_DFS" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda tries to find Juliette the raccoon who walks randomly (DFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                        <Button fx:id="button_start_DFS" onAction="#start_DFS" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda tries (DFS) to find Juliette the raccoon who walks randomly." textAlignment="CENTER" textOverrun="CLIP" visible="false" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="button_start_BFS" onAction="#start_BFS" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda tries to find Juliette the raccoon who walks randomly (BFS)." textAlignment="CENTER" textOverrun="CLIP" visible="true" wrapText="true">
+                        <Button fx:id="button_start_BFS" onAction="#start_BFS" prefHeight="65.0" prefWidth="225.0" text="Romeo the panda tries (BFS) to find Juliette the raccoon who walks randomly." textAlignment="CENTER" textOverrun="CLIP" visible="false" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>

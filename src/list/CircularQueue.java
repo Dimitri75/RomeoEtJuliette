@@ -22,14 +22,6 @@ public class CircularQueue<T> extends LinkedList<T>{
         return fixedSize;
     }
 
-    public T addAndReturn(T o){
-        addLast(o);
-
-        if (size() > fixedSize)
-            removeFirst();
-
-        return o;
-    }
 
     public T popFirstAndRepushAtTheEnd(){
         T o = removeFirst();
