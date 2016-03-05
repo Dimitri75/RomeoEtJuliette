@@ -4,13 +4,15 @@ import interfaces.ILocation;
 import element.Location;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Dimitri on 21/10/2015.
  */
 public class Vertex implements ILocation, Comparable<Vertex> {
 	int x, y;
-	private Vertex previous;
+	private Map<Vertex, Vertex> mapPrevious;
 	private double minDistance = Double.POSITIVE_INFINITY;
 	private ArrayList<Edge> adjacencies;
 
@@ -18,14 +20,6 @@ public class Vertex implements ILocation, Comparable<Vertex> {
 		this.x = x;
 		this.y = y;
 		adjacencies = new ArrayList<>();
-	}
-
-	public Vertex(Vertex vertex) {
-		this.x = vertex.getX();
-		this.y = vertex.getY();
-		this.previous = vertex.getPrevious();
-		this.minDistance = vertex.getMinDistance();
-		this.adjacencies = vertex.getAdjacencies();
 	}
 
 	public ArrayList<Edge> getAdjacencies(){
@@ -40,13 +34,24 @@ public class Vertex implements ILocation, Comparable<Vertex> {
 		return minDistance;
 	}
 
-	public void setPrevious(Vertex previous) {
-		this.previous = previous;
+	public void setMapPrevious(Map<Vertex, Vertex> mapPrevious) {
+		this.mapPrevious = mapPrevious;
 	}
 
-	public Vertex getPrevious() {
-		return previous;
+	public Map<Vertex, Vertex> getMapPrevious() {
+		return mapPrevious;
 	}
+
+    public void addPrevious(Vertex previous, Vertex explorator){
+        if (mapPrevious == null)
+            mapPrevious = new HashMap<>();
+
+        mapPrevious.put(explorator, previous);
+    }
+
+    public Vertex getPrevious(Vertex explorator){
+        return (mapPrevious != null) ? mapPrevious.get(explorator) : null;
+    }
 
 	public Location getLocation(){
 		return new Location(x, y);

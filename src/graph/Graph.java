@@ -133,7 +133,7 @@ public class Graph {
     private void reinitVertices() {
         for (Vertex vertex : listVertex) {
             vertex.setMinDistance(Double.POSITIVE_INFINITY);
-            vertex.setPrevious(null);
+            vertex.setMapPrevious(null);
         }
     }
 
@@ -160,7 +160,7 @@ public class Graph {
                 Controller.addLocationToMark(current.getLocation(), debugColor);
 
             if (current.equals(destination))
-                return getShortestPath(destination);
+                return getShortestPath(start, destination);
 
             for (Edge e : current.getAdjacencies()) {
                 Vertex targetVertex = e.getTarget();
@@ -168,26 +168,26 @@ public class Graph {
 
                 if (distanceThroughCurrent < targetVertex.getMinDistance()) {
                     targetVertex.setMinDistance(distanceThroughCurrent);
-                    targetVertex.setPrevious(current);
+                    targetVertex.addPrevious(current, start);
                     vertexQueue.add(targetVertex);
                 }
             }
         }
         vertexQueue.clear();
 
-        return getShortestPath(destination);
+        return getShortestPath(start, destination);
     }
 
-    public List<Vertex> getShortestPath(Vertex destination){
+    public List<Vertex> getShortestPath(Vertex start, Vertex destination){
         List<Vertex> path = new ArrayList<Vertex>();
-        for (Vertex vertex = destination; vertex != null; vertex = vertex.getPrevious())
+        for (Vertex vertex = destination; vertex != null; vertex = vertex.getPrevious(start))
             path.add(vertex);
 
         Collections.reverse(path);
         return path;
     }
 
-    public Map<Vertex, List<Vertex>> multipleBFS(EnumMode mode, Vertex... vertex) {
+    public Vertex multipleBFS(EnumMode mode, Vertex... vertex) {
         List<Vertex> listExplorators = new ArrayList<>();
         Map<Vertex, List<Vertex>> visitedVertices = new HashMap<>();
         Map<Vertex, LinkedList<Vertex>> verticesMap = new HashMap<>();
@@ -223,12 +223,12 @@ public class Graph {
 
                         if ((visitors == null || !visitors.contains(explorator)) && distanceThroughCurrent <= neighbor.getMinDistance()){
                             neighbor.setMinDistance(distanceThroughCurrent);
-                            neighbor.setPrevious(current);
+                            neighbor.addPrevious(current, explorator);
 
                             visitVertex(neighbor, explorator, visitedVertices, mode, EnumColor.getColorAt(listExplorators.indexOf(explorator)));
 
                             if (visitedVertices.get(neighbor) != null && visitedVertices.get(neighbor).size() == vertex.length)
-                                return null;
+                                return neighbor;
 
                             queue.add(neighbor);
                         }

@@ -240,35 +240,25 @@ public class Controller {
     public void romeoAndJulietteFindEachOther() {
         try {
             stopMovements();
-
             Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
             Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
 
-            /*********************/
-            //TODO FIX MULTIPLE BFS
-            Map<Vertex, List<Vertex>> paths;
-            if ((paths = graph.multipleBFS(mode, graph.getVertexByLocation(romeo.getLocation()), graph.getVertexByLocation(juliette.getLocation()))) != null){
+            Vertex destination;
+            if ((destination = graph.multipleBFS(mode, graph.getVertexByLocation(romeo.getLocation()), graph.getVertexByLocation(juliette.getLocation()))) != null){
+                startDebugTimer();
+                romeo.initPath(graph.getShortestPath(romeoVertex, destination));
+                juliette.initPath(graph.getShortestPath(julietteVertex, destination));
 
+                romeoThread = new Thread(romeo);
+                julietteThread = new Thread(juliette);
+
+                startGlobalTimer();
+                romeoThread.start();
+                julietteThread.start();
+
+                animateJuliette();
+                animateRomeo();
             }
-            startDebugTimer();
-
-
-            /**********************/
-
-
-            Vertex destination = getDestinationBetweenVertexes(romeoVertex, julietteVertex, EnumMode.NORMAL);
-            romeo.initPathDijkstra(graph, romeoVertex, destination, EnumMode.NORMAL);
-            juliette.initPathDijkstra(graph, julietteVertex, destination, EnumMode.NORMAL);
-
-            romeoThread = new Thread(romeo);
-            julietteThread = new Thread(juliette);
-
-            startGlobalTimer();
-            romeoThread.start();
-            julietteThread.start();
-
-            animateJuliette();
-            animateRomeo();
         } catch (Exception e) {
             e.printStackTrace();
         }
