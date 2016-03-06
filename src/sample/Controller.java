@@ -4,6 +4,8 @@ import element.Location;
 import element.MapElement;
 import enumerations.*;
 import javafx.scene.control.CheckBox;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import list.CircularQueue;
 import graph.Graph;
@@ -39,6 +41,7 @@ public class Controller {
     private static Integer PACE;
 
     private EnumMode mode;
+    private boolean launched = false, started;
     private Timer julietteTimer, timer, timerBrowser, debugTimer;
     private AnimationHandler julietteAnimation, romeoAnimation;
     private Graph graph;
@@ -64,6 +67,9 @@ public class Controller {
 
         vbox_options.setDisable(true);
         button_restart.setDisable(false);
+
+        started = true;
+        launched = false;
     }
 
     @FXML
@@ -72,30 +78,37 @@ public class Controller {
         displayButtons(false);
         vbox_options.setDisable(false);
         button_restart.setDisable(true);
+
+        started = false;
+        launched = false;
     }
 
     @FXML
     public void start_simpleDijkstra() {
         displayButtons(false);
         romeoRunTheShortestPathToVertex(graph.getVertexByLocation(juliette.getX(), juliette.getY()), mode);
+        launched = true;
     }
 
     @FXML
     public void start_multipleBFS() {
         displayButtons(false);
         romeoAndJulietteFindEachOther();
+        launched = true;
     }
 
     @FXML
     public void start_DFS() {
         displayButtons(false);
         romeoLooksForJuliette(EnumGraph.DFS);
+        launched = true;
     }
 
     @FXML
     public void start_BFS() {
         displayButtons(false);
         romeoLooksForJuliette(EnumGraph.BFS);
+        launched = true;
     }
 
     /**
@@ -118,6 +131,7 @@ public class Controller {
         MapElement obstacle;
         int maxX = (int) (anchorPane.getPrefWidth() / PACE);
         int maxY = (int) (anchorPane.getPrefHeight() / PACE) - 1;
+
         for (int x = 2; x < maxX; x *= 2) {
             for (int y = 3; y < maxY; y++) {
                 if (y % x != 0) {
@@ -135,6 +149,32 @@ public class Controller {
                     obstaclesList.add(obstacle);
                 }
             }
+        }
+    }
+
+    @FXML
+    public void setObstacle(MouseEvent e) {
+        if (started && !launched) {
+            MapElement obstacle = null;
+            int x = (int) e.getSceneX() - (int) e.getSceneX() % PACE;
+            int y = (int) e.getSceneY() - (int) e.getSceneY() % PACE;
+
+            if (checkIfNoObstacles(x, y) && checkIfNoCharacters(x, y, romeo, juliette)) {
+                obstacle = new MapElement(x, y, PACE, ResourcesUtils.getInstance().getObstacle());
+                anchorPane.getChildren().add(obstacle.getShape());
+                obstaclesList.add(obstacle);
+            }
+            else {
+                for (MapElement element : obstaclesList) {
+                    if (element.getX() == x && element.getY() == y) {
+                        obstacle = element;
+                        anchorPane.getChildren().remove(element.getShape());
+                    }
+                }
+                if (obstacle != null)
+                    obstaclesList.remove(obstacle);
+            }
+            initGraph();
         }
     }
 
@@ -405,7 +445,7 @@ public class Controller {
         int x = character.getX();
         int y = character.getY();
 
-        HashMap<Integer, Location> movementsDictionnary = new HashMap<>();
+        Map<Integer, Location> movementsDictionnary = new HashMap<>();
         movementsDictionnary.put(EnumPosition.LEFT.toInteger(), new Location(x - PACE, y));
         movementsDictionnary.put(EnumPosition.RIGHT.toInteger(), new Location(x + PACE, y));
         movementsDictionnary.put(EnumPosition.UP.toInteger(), new Location(x, y + PACE));
@@ -450,6 +490,14 @@ public class Controller {
             if (obstacle.getX() == x && obstacle.getY() == y ||
                     x < 0 || y < 0 || x >= anchorPane.getWidth() || y >= anchorPane.getHeight())
                 return false;
+        return true;
+    }
+
+    public boolean checkIfNoCharacters(int x, int y, Character... characters) {
+        for (Character character : characters){
+            if (character.getX() == x && character.getY() == y)
+                return false;
+        }
         return true;
     }
 

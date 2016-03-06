@@ -9,12 +9,12 @@
    <bottom>
         <SplitPane dividerPositions="0.8753581661891118" orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
             <items>
-                <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/food.png')" /> <!--style="-fx-background-color: rgba(159, 33, 34, 0.67);"-->
+                <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#setObstacle" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/food.png')" /> <!--style="-fx-background-color: rgba(159, 33, 34, 0.67);"-->
                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: rgb(75, 79, 77);">
                     <children>
                   <VBox fx:id="vbox_options" alignment="CENTER" prefHeight="200.0" prefWidth="175.0">
                      <children>
-                        <CheckBox fx:id="checkbox_debug" mnemonicParsing="false" prefHeight="41.0" prefWidth="111.0" text="Debug" textFill="WHITE">
+                        <CheckBox fx:id="checkbox_debug" mnemonicParsing="false" prefHeight="41.0" prefWidth="116.0" selected="true" text="Display algorithm" textFill="WHITE">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin></CheckBox>
@@ -36,7 +36,7 @@
                               <Insets bottom="3.0" />
                            </VBox.margin>
                               </Button>
-                        <Button fx:id="button_restart" disable="true" onAction="#restart" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Restart">
+                        <Button fx:id="button_restart" disable="true" mnemonicParsing="false" onAction="#restart" prefHeight="25.0" prefWidth="60.0" text="Restart">
                            <VBox.margin>
                               <Insets top="3.0" />
                            </VBox.margin>
