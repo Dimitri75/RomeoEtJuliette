@@ -3,8 +3,7 @@ package sample;
 import element.Location;
 import element.MapElement;
 import enumerations.*;
-import javafx.scene.control.CheckBox;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import list.CircularQueue;
@@ -13,9 +12,6 @@ import graph.Vertex;
 import element.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -41,7 +37,7 @@ public class Controller {
     private static Integer PACE;
 
     private EnumMode mode;
-    private boolean launched = false, started;
+    private boolean launched, started, pathFound;
     private Timer julietteTimer, timer, timerBrowser, debugTimer;
     private AnimationHandler julietteAnimation, romeoAnimation;
     private Graph graph;
@@ -50,9 +46,12 @@ public class Controller {
     private CircularQueue<Vertex> path;
     private List<Rectangle> markedLocations = new ArrayList<>();
     private List<MapElement> obstaclesList = new ArrayList<>();
+    private static LinkedList<Rectangle> locationsToMark = new LinkedList<>();
 
     public Controller() {
     }
+
+
 
     @FXML
     public void start() {
@@ -81,6 +80,7 @@ public class Controller {
 
         started = false;
         launched = false;
+        showInstructions();
     }
 
     @FXML
@@ -263,15 +263,19 @@ public class Controller {
         stopRomeo();
 
         Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
-        romeo.initPathDijkstra(graph, romeoVertex, destination, mode);
+        pathFound = romeo.initPathDijkstra(graph, romeoVertex, destination, mode);
         startDebugTimer();
 
-        romeoThread = new Thread(romeo);
+        if (pathFound) {
+            romeoThread = new Thread(romeo);
+            startGlobalTimer();
+            romeoThread.start();
 
-        startGlobalTimer();
-        romeoThread.start();
-
-        animateRomeo();
+            animateRomeo();
+        }
+        else {
+            showAlertNoPathAvailable();
+        }
     }
 
     /**
@@ -283,9 +287,10 @@ public class Controller {
             Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
             Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
 
-            Vertex destination;
-            if ((destination = graph.multipleBFS(mode, graph.getVertexByLocation(romeo.getLocation()), graph.getVertexByLocation(juliette.getLocation()))) != null){
-                startDebugTimer();
+            Vertex destination = graph.multipleBFS(mode, graph.getVertexByLocation(romeo.getLocation()), graph.getVertexByLocation(juliette.getLocation()));
+            startDebugTimer();
+
+            if (destination != null){
                 romeo.initPath(graph.getShortestPath(romeoVertex, destination));
                 juliette.initPath(graph.getShortestPath(julietteVertex, destination));
 
@@ -299,9 +304,28 @@ public class Controller {
                 animateJuliette();
                 animateRomeo();
             }
+            else {
+                showAlertNoPathAvailable();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void showAlertNoPathAvailable(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("No path available");
+        alert.setContentText("We haven't found a correct path ! Parhaps should you think about removing few obstacles next time. 8)");
+        alert.show();
+    }
+
+    public static void showInstructions(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Romeo & Juliet");
+        alert.setContentText(EnumText.INSTRUCTIONS.toString());
+        alert.show();
     }
 
     /**
@@ -311,6 +335,11 @@ public class Controller {
         try {
             stopMovements();
             initBrowsingPathFrom(juliette, enumGraph);
+
+            if (path == null || path.isEmpty()){
+                showAlertNoPathAvailable();
+                return;
+            }
 
             startJulietteTimer();
             startTimerBrowser();
@@ -381,8 +410,9 @@ public class Controller {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    animateJuliette();
-                    walkRandomly(juliette);
+                    if(!walkRandomly(juliette)) {
+                        cancelTimer(julietteTimer, julietteAnimation);
+                    }
                 });
             }
         }, 0, 300);
@@ -408,10 +438,7 @@ public class Controller {
                     if (romeo.isActionDone()){
                         Location location = path.popFirstAndRepushAtTheEnd().getLocation();
 
-                        if (((location.getX() - romeo.getX() == PACE || location.getX() - romeo.getX() == -PACE)
-                                && location.getY() == romeo.getY()) ||
-                                ((location.getY() - romeo.getY() == PACE || location.getY() - romeo.getY() == -PACE)
-                                        && location.getX() == romeo.getX())){
+                        if (areLocationsClose(graph.getVertexByLocation(romeo.getLocation()).getLocation(), location)){
                             animateRomeo();
                             romeo.setLocation(location);
                         }
@@ -441,7 +468,7 @@ public class Controller {
      * Randomly moves a character up, down, left or right
      * @param character
      */
-    public void walkRandomly(Character character) {
+    public boolean walkRandomly(Character character) {
         int x = character.getX();
         int y = character.getY();
 
@@ -451,8 +478,16 @@ public class Controller {
         movementsDictionnary.put(EnumPosition.UP.toInteger(), new Location(x, y + PACE));
         movementsDictionnary.put(EnumPosition.DOWN.toInteger(), new Location(x, y - PACE));
 
-        Random random = new Random();
+        int possibleMovements = 0;
+        for (Location location : movementsDictionnary.values()){
+            if (checkIfNoObstacles(location.getX(), location.getY()))
+                possibleMovements++;
+        }
 
+        if (possibleMovements == 0)
+            return false;
+
+        Random random = new Random();
         boolean hasMoved = false;
         while (!hasMoved) {
             int position = random.nextInt(4);
@@ -464,6 +499,7 @@ public class Controller {
                 hasMoved = true;
             }
         }
+        return true;
     }
 
     /**
@@ -580,24 +616,6 @@ public class Controller {
     }
 
     /**
-     * Places a marker at the given position to display a character's walk or anything which needs attention
-     * @param location
-     * @param color
-     */
-    public void markLocation(Location location, Color color){
-        Platform.runLater(() -> {
-            Rectangle rectangle = new Rectangle(PACE, PACE);
-            rectangle.setX(location.getX());
-            rectangle.setY(location.getY());
-            rectangle.setFill(color);
-            rectangle.setOpacity(0.5);
-            rectangle.setStroke(color.LIGHTGRAY);
-            anchorPane.getChildren().add(rectangle);
-            markedLocations.add(rectangle);
-        });
-    }
-
-    /**
      * Clears previously marked locations
      */
     public void clearLocations(){
@@ -613,7 +631,11 @@ public class Controller {
         }
     }
 
-    private static LinkedList<Rectangle> locationsToMark = new LinkedList<>();
+    /**
+     * Mark a location which will be colored by the debug timer
+     * @param location
+     * @param color
+     */
     public static void addLocationToMark(Location location, Color color){
         Rectangle rectangle = new Rectangle(PACE, PACE);
         rectangle.setX(location.getX());
@@ -625,6 +647,9 @@ public class Controller {
         locationsToMark.add(rectangle);
     }
 
+    /**
+     * Handle tiles coloration using the list of locations to mark
+     */
     public void startDebugTimer() {
         if (!mode.equals(EnumMode.DEBUG))
             return;

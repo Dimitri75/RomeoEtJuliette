@@ -34,14 +34,6 @@ public class Graph {
         init();
     }
 
-    public List<Vertex> getListVertex() {
-        return listVertex;
-    }
-
-    public List<Edge> getListEdges() {
-        return listEdges;
-    }
-
     /**
      * Adds an edge to the graph
      *
@@ -98,7 +90,7 @@ public class Graph {
      * Initialize the graph according to the map and the obstacles
      */
     public void init() {
-        boolean noObstacles = true;
+        boolean noObstacles;
         for (int y = 0; y < height; y += pace) {
             Vertex leftVertex = null;
             for (int x = 0; x < width; x += pace) {
@@ -175,7 +167,7 @@ public class Graph {
         }
         vertexQueue.clear();
 
-        return getShortestPath(start, destination);
+        return null;
     }
 
     public List<Vertex> getShortestPath(Vertex start, Vertex destination){
@@ -279,7 +271,6 @@ public class Graph {
         Color debugColor = EnumColor.getColorAt(-1);
 
         List<Vertex> visitedVertices = new ArrayList<>();
-
         LinkedList<Vertex> queue = new LinkedList<>();
         CircularQueue<Vertex> circularQueue = new CircularQueue<>(listVertex.size());
 

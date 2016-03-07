@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,7 +10,7 @@
    <bottom>
         <SplitPane dividerPositions="0.8753581661891118" orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER">
             <items>
-                <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#setObstacle" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/food.png')" /> <!--style="-fx-background-color: rgba(159, 33, 34, 0.67);"-->
+                <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#setObstacle" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/food.png')" />
                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: rgb(75, 79, 77);">
                     <children>
                   <VBox fx:id="vbox_options" alignment="CENTER" prefHeight="200.0" prefWidth="175.0">

@@ -27,10 +27,6 @@ public class Character extends MapElement implements Runnable {
         return actionDone;
     }
 
-    public void setActionDone(boolean actionDone) {
-        this.actionDone = actionDone;
-    }
-
     public void changePosition() {
         if (enumPosition.equals(EnumPosition.LEFT)) {
             enumPosition = EnumPosition.RIGHT;
@@ -43,12 +39,15 @@ public class Character extends MapElement implements Runnable {
         return enumPosition;
     }
 
-    public void initPathDijkstra(Graph graph, Vertex start, Vertex destination, EnumMode mode) {
+    public boolean initPathDijkstra(Graph graph, Vertex start, Vertex destination, EnumMode mode) {
         actionDone = false;
 
         if (path != null)
             path.clear();
+
         path = graph.dijkstra(start, destination, mode);
+
+        return (path != null) ? true : false;
     }
 
     public void initPath(List<Vertex> path) {
