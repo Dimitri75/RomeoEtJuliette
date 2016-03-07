@@ -110,6 +110,7 @@ public class Graph {
 
                     Vertex upVertex;
                     if (y != 0 && (upVertex = getVertexByLocation(x, y - pace)) != null) {
+
                         addEdge(upVertex, tmpVertex, EnumGraph.SPEED_NORMAL);
                         addEdge(tmpVertex, upVertex, EnumGraph.SPEED_NORMAL);
                     }

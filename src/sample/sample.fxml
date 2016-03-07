@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -21,7 +20,7 @@
                            </VBox.margin></CheckBox>
                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="175.0">
                            <children>
-                              <Label text="Taille" textFill="WHITE" />
+                              <Label text="Size" textFill="WHITE" />
                                     <Slider fx:id="slider_size" prefHeight="15.0" prefWidth="100.0" value="50" />
                            </children>
                         </HBox>

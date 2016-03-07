@@ -12,13 +12,6 @@ import javafx.util.Duration;
 public class MapElement extends Location {
     private Rectangle shape;
 
-    public MapElement(int x, int y, int shapeSize) {
-        super(x, y);
-        shape = new Rectangle(shapeSize, shapeSize);
-        shape.setX(x);
-        shape.setY(y);
-    }
-
     public MapElement(int x, int y, int shapeSize, EnumImage image) {
         super(x, y);
         shape = new Rectangle(shapeSize, shapeSize);
@@ -39,9 +32,8 @@ public class MapElement extends Location {
         return shape;
     }
 
-    @Override
-    public void setX(int x) {
-        this.x = x;
+    public void translateX(int x) {
+        super.setX(x);
 
         TranslateTransition transition = new TranslateTransition();
         transition.setToX(x);
@@ -51,9 +43,8 @@ public class MapElement extends Location {
         transition.play();
     }
 
-    @Override
-    public void setY(int y) {
-        this.y = y;
+    public void translateY(int y) {
+        super.setY(y);
 
         TranslateTransition transition = new TranslateTransition();
         transition.setToY(y);
@@ -61,6 +52,18 @@ public class MapElement extends Location {
         transition.setDuration(Duration.millis(300));
         transition.setNode(getShape());
         transition.play();
+    }
+
+    @Override
+    public void setX(int x) {
+        super.setX(x);
+        shape.setX(x);
+    }
+
+    @Override
+    public void setY(int y) {
+        super.setY(y);
+        shape.setY(y);
     }
 
     @Override

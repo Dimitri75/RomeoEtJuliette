@@ -55,7 +55,7 @@ public class Controller {
 
     @FXML
     public void start() {
-        clearAll();
+        clear();
         initMap();
         displayButtons(true);
 
@@ -129,24 +129,31 @@ public class Controller {
      */
     public void initObstacles() {
         MapElement obstacle;
-        int maxX = (int) (anchorPane.getPrefWidth() / PACE);
-        int maxY = (int) (anchorPane.getPrefHeight() / PACE) - 1;
+        if (obstaclesList != null && !obstaclesList.isEmpty()){
+            for (MapElement element : obstaclesList) {
 
-        for (int x = 2; x < maxX; x *= 2) {
-            for (int y = 3; y < maxY; y++) {
-                if (y % x != 0) {
-                    obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
-                    anchorPane.getChildren().add(obstacle.getShape());
-                    obstaclesList.add(obstacle);
-                }
             }
         }
-        for (int y = 2; y < maxY; y *= 2) {
-            for (int x = 3; x < maxX; x++) {
-                if (x % 5 == 0 || x % 5 == 1) {
-                    obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
-                    anchorPane.getChildren().add(obstacle.getShape());
-                    obstaclesList.add(obstacle);
+        else {
+            int maxX = (int) (anchorPane.getPrefWidth() / PACE);
+            int maxY = (int) (anchorPane.getPrefHeight() / PACE) - 1;
+
+            for (int x = 2; x < maxX; x *= 2) {
+                for (int y = 3; y < maxY; y++) {
+                    if (y % x != 0) {
+                        obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
+                        anchorPane.getChildren().add(obstacle.getShape());
+                        obstaclesList.add(obstacle);
+                    }
+                }
+            }
+            for (int y = 2; y < maxY; y *= 2) {
+                for (int x = 3; x < maxX; x++) {
+                    if (x % 5 == 0 || x % 5 == 1) {
+                        obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
+                        anchorPane.getChildren().add(obstacle.getShape());
+                        obstaclesList.add(obstacle);
+                    }
                 }
             }
         }
@@ -159,7 +166,7 @@ public class Controller {
             int x = (int) e.getSceneX() - (int) e.getSceneX() % PACE;
             int y = (int) e.getSceneY() - (int) e.getSceneY() % PACE;
 
-            if (checkIfNoObstacles(x, y) && checkIfNoCharacters(x, y, romeo, juliette)) {
+            if (checkIfNoObstacles(x, y) && checkIfNoCharacters(new Location(x, y), romeo, juliette)) {
                 obstacle = new MapElement(x, y, PACE, ResourcesUtils.getInstance().getObstacle());
                 anchorPane.getChildren().add(obstacle.getShape());
                 obstaclesList.add(obstacle);
@@ -186,8 +193,10 @@ public class Controller {
             romeo = new Character(0, 0, PACE, EnumImage.PANDA);
             juliette = new Character(0, 0, PACE, EnumImage.RACCOON);
 
-            initCharacter(romeo);
-            initCharacter(juliette);
+            while (!checkIfNoCharacters(romeo.getLocation(), juliette)) {
+                initCharacter(romeo);
+                initCharacter(juliette);
+            }
         } catch (Exception e) {
             label_error.setText("Bravo ! Maintenant c'est cassé. :(");
         }
@@ -214,8 +223,9 @@ public class Controller {
             randY -= randY % PACE;
         }
 
-        character.setX(randX);
-        character.setY(randY);
+
+        character.translateX(randX);
+        character.translateY(randY);
 
         anchorPane.getChildren().add(character.getShape());
     }
@@ -231,18 +241,19 @@ public class Controller {
      * Clears the map and remove elements
      */
     public void clearAll() {
-        clearLocations();
-        cancelTimer(timer, timer, timerBrowser, julietteTimer);
-
-        if (julietteTimer != null) julietteTimer.cancel();
-
-        label_error.setText("");
+        clear();
 
         for (MapElement obstacle : obstaclesList)
             anchorPane.getChildren().remove(obstacle.getShape());
         obstaclesList.clear();
+    }
 
+    public void clear(){
+        clearLocations();
+        cancelTimer(timer, timerBrowser, debugTimer);
         stopMovements();
+
+        label_error.setText("");
 
         if (romeo != null) {
             anchorPane.getChildren().remove(romeo.getShape());
@@ -254,7 +265,6 @@ public class Controller {
             juliette = null;
         }
     }
-
     /**
      * Starts simulation where Romeo run the shortest path to the given destination
      * @param destination
@@ -363,11 +373,11 @@ public class Controller {
      * Handles cancelation of Romeo's animations and thread
      */
     public void stopRomeo() {
+        cancelTimer(romeoAnimation);
+
         if (romeoThread != null)
             romeoThread.interrupt();
         romeoThread = null;
-
-        cancelTimer(romeoAnimation);
     }
 
     /**
@@ -494,8 +504,8 @@ public class Controller {
             Location location = movementsDictionnary.get(position);
 
             if (checkIfNoObstacles(location.getX(), location.getY())) {
-                character.setX(location.getX());
-                character.setY(location.getY());
+                character.translateX(location.getX());
+                character.translateY(location.getY());
                 hasMoved = true;
             }
         }
@@ -529,9 +539,9 @@ public class Controller {
         return true;
     }
 
-    public boolean checkIfNoCharacters(int x, int y, Character... characters) {
+    public boolean checkIfNoCharacters(Location location, Character... characters) {
         for (Character character : characters){
-            if (character.getX() == x && character.getY() == y)
+            if (character.getX() == location.getX() && character.getY() == location.getY())
                 return false;
         }
         return true;
@@ -670,6 +680,6 @@ public class Controller {
                     }
                 });
             }
-        }, 0, 50);
+        }, 0, 10);
     }
 }

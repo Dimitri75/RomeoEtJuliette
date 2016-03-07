@@ -55,24 +55,23 @@ public class Character extends MapElement implements Runnable {
     }
 
     public void setLocation(Location location){
-        setX(location.getX());
-        setY(location.getY());
+        translateX(location.getX());
+        translateY(location.getY());
     }
 
     @Override
-    public void setX(int x) {
+    public void translateX(int x) {
         if (x < getX() && enumPosition.equals(EnumPosition.RIGHT)) {
             changePosition();
         } else if (x > getX() && enumPosition.equals(EnumPosition.LEFT)) {
             changePosition();
         }
-
-        super.setX(x);
+        super.translateX(x);
     }
 
     @Override
-    public void setY(int y) {
-        super.setY(y);
+    public void translateY(int y) {
+        super.translateY(y);
     }
 
     @Override
@@ -89,8 +88,8 @@ public class Character extends MapElement implements Runnable {
                     }
 
                     Platform.runLater(() -> {
-                        setX(vertex.getX());
-                        setY(vertex.getY());
+                        translateX(vertex.getX());
+                        translateY(vertex.getY());
                     });
                 }
             }
