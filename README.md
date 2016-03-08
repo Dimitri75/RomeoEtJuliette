@@ -2,7 +2,7 @@
 
 <h2>Options</h2>
 - <b>Checkbox "Display algorithm"</b> : Display how the algorithm works to find paths
-- <b>Slider "Size"<b> : Handle the size of the map
+- <b>Slider "Size"</b> : Handle the size of the map
 
 <h2>Get started</h2>
 1 - Configure your <b>options</b>
