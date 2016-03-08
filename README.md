@@ -11,3 +11,7 @@
 - (4) <b>Press one of the four buttons</b> to start a simulation
 - (5) Press start to restart
 - (6) Press restart to change your options
+
+<h2>Executable jar</h2>
+An executable jar is findable here : "<a href='https://github.com/Dimitri75/RomeoEtJuliette/tree/master/out/artifacts/RomeoEtJuliette'>RomeoEtJuliette/out/artifacts/RomeoEtJuliette/RomeoEtJuliette.jar</a>"
+
