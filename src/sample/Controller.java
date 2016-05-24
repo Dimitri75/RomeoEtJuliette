@@ -1,20 +1,21 @@
 package sample;
 
+import element.Character;
 import element.Location;
 import element.MapElement;
 import enumerations.*;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import list.CircularQueue;
 import graph.Graph;
+import graph.MazeGenerator;
 import graph.Vertex;
-import element.Character;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import list.CircularQueue;
 import utils.AnimationHandler;
 import utils.ResourcesUtils;
 
@@ -36,22 +37,18 @@ public class Controller {
 
     private static Integer PACE;
 
-    private EnumMode mode;
-    private boolean launched, started, pathFound;
-    private Timer julietteTimer, timer, timerBrowser, debugTimer;
-    private AnimationHandler julietteAnimation, romeoAnimation;
-    private Graph graph;
-    private Character romeo, juliette;
-    private Thread romeoThread, julietteThread;
-    private CircularQueue<Vertex> path;
-    private List<Rectangle> markedLocations = new ArrayList<>();
-    private List<MapElement> obstaclesList = new ArrayList<>();
-    private static LinkedList<Rectangle> locationsToMark = new LinkedList<>();
+    public static EnumMode mode;
+    private static boolean launched, started, pathFound;
+    private static Timer debugTimer;
+    public static Graph graph;
+    public static Character romeo, juliette;
+    public static Thread romeoThread, julietteThread;
+    public static CircularQueue<Vertex> path;
+    public static List<Rectangle> markedLocations = new ArrayList<>();
+    public static LinkedList<Rectangle> locationsToMark = new LinkedList<>();
 
     public Controller() {
     }
-
-
 
     @FXML
     public void start() {
@@ -119,70 +116,8 @@ public class Controller {
         button_start.setFocusTraversable(false);
         PACE = (slider_size.getValue() < 50) ? 50 : (int) slider_size.getValue();
 
-        initObstacles();
-        initRomeoAndJuliette();
         initGraph();
-    }
-
-    /**
-     * Place obstacles around the map according to the size of it
-     */
-    public void initObstacles() {
-        MapElement obstacle;
-        if (obstaclesList != null && !obstaclesList.isEmpty()){
-            for (MapElement element : obstaclesList) {
-
-            }
-        }
-        else {
-            int maxX = (int) (anchorPane.getPrefWidth() / PACE);
-            int maxY = (int) (anchorPane.getPrefHeight() / PACE) - 1;
-
-            for (int x = 2; x < maxX; x *= 2) {
-                for (int y = 3; y < maxY; y++) {
-                    if (y % x != 0) {
-                        obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
-                        anchorPane.getChildren().add(obstacle.getShape());
-                        obstaclesList.add(obstacle);
-                    }
-                }
-            }
-            for (int y = 2; y < maxY; y *= 2) {
-                for (int x = 3; x < maxX; x++) {
-                    if (x % 5 == 0 || x % 5 == 1) {
-                        obstacle = new MapElement(x * PACE, y * PACE, PACE, ResourcesUtils.getInstance().getObstacle());
-                        anchorPane.getChildren().add(obstacle.getShape());
-                        obstaclesList.add(obstacle);
-                    }
-                }
-            }
-        }
-    }
-
-    @FXML
-    public void setObstacle(MouseEvent e) {
-        if (started && !launched) {
-            MapElement obstacle = null;
-            int x = (int) e.getSceneX() - (int) e.getSceneX() % PACE;
-            int y = (int) e.getSceneY() - (int) e.getSceneY() % PACE;
-
-            if (checkIfNoObstacles(x, y) && checkIfNoCharacters(new Location(x, y), romeo, juliette)) {
-                obstacle = new MapElement(x, y, PACE, ResourcesUtils.getInstance().getObstacle());
-                anchorPane.getChildren().add(obstacle.getShape());
-                obstaclesList.add(obstacle);
-            }
-            else {
-                for (MapElement element : obstaclesList) {
-                    if (element.getX() == x && element.getY() == y) {
-                        obstacle = element;
-                        anchorPane.getChildren().remove(element.getShape());
-                    }
-                }
-                if (obstacle != null)
-                    obstaclesList.remove(obstacle);
-            }
-            initGraph();
-        }
+        initRomeoAndJuliette();
     }
 
     /**
@@ -190,8 +125,8 @@ public class Controller {
      */
     public void initRomeoAndJuliette() {
         try {
-            romeo = new Character(0, 0, PACE, EnumImage.PANDA);
-            juliette = new Character(0, 0, PACE, EnumImage.RACCOON);
+            romeo = new Character(0, 0, PACE, EnumImage.PANDA, EnumSprite.PANDA_SPRITE);
+            juliette = new Character(0, 0, PACE, EnumImage.RACCOON, EnumSprite.RACCOON_SPRITE);
 
             while (!checkIfNoCharacters(romeo.getLocation(), juliette)) {
                 initCharacter(romeo);
@@ -199,6 +134,7 @@ public class Controller {
             }
         } catch (Exception e) {
             label_error.setText("Bravo ! Maintenant c'est cassé. :(");
+            e.printStackTrace();
         }
     }
 
@@ -234,7 +170,48 @@ public class Controller {
      * Initializes the graph using obstacles and the size of the window
      */
     public void initGraph() {
-        graph = new Graph((int) anchorPane.getWidth(), (int) anchorPane.getHeight(), obstaclesList, PACE);
+        graph = new Graph((int) anchorPane.getWidth(), (int) anchorPane.getHeight(), PACE);
+        initObstacles();
+        graph.init();
+    }
+
+    /**
+     * Place obstacles around the map according to the size of it
+     */
+    public void initObstacles() {
+        MazeGenerator.basicMaze(graph);
+        for (MapElement obstacle : graph.getObstaclesList())
+            anchorPane.getChildren().add(obstacle.getShape());
+    }
+
+    /**
+     * Allow to add or remove obstacles by clicks
+     * @param e
+     */
+    @FXML
+    public void setObstacle(MouseEvent e) {
+        if (started && !launched) {
+            MapElement obstacle = null;
+            int x = (int) e.getSceneX() - (int) e.getSceneX() % PACE;
+            int y = (int) e.getSceneY() - (int) e.getSceneY() % PACE;
+
+            if (checkIfNoObstacles(x, y) && checkIfNoCharacters(new Location(x, y), romeo, juliette)) {
+                obstacle = new MapElement(x, y, PACE, ResourcesUtils.getInstance().getObstacle());
+                anchorPane.getChildren().add(obstacle.getShape());
+                graph.getObstaclesList().add(obstacle);
+            }
+            else {
+                for (MapElement element : graph.getObstaclesList()) {
+                    if (element.getX() == x && element.getY() == y) {
+                        obstacle = element;
+                        anchorPane.getChildren().remove(element.getShape());
+                    }
+                }
+                if (obstacle != null)
+                    graph.getObstaclesList().remove(obstacle);
+            }
+            initGraph();
+        }
     }
 
     /**
@@ -243,15 +220,18 @@ public class Controller {
     public void clearAll() {
         clear();
 
-        for (MapElement obstacle : obstaclesList)
+        for (MapElement obstacle : graph.getObstaclesList())
             anchorPane.getChildren().remove(obstacle.getShape());
-        obstaclesList.clear();
+        graph.getObstaclesList().clear();
     }
 
+    /**
+     * Cancel timers and clean GUI
+     */
     public void clear(){
         clearLocations();
-        cancelTimer(timer, timerBrowser, debugTimer);
-        stopMovements();
+        TimersHandler.cancelTimer(TimersHandler.timer, TimersHandler.timerBrowser, TimersHandler.julietteTimer, debugTimer);
+        TimersHandler.stopMovements();
 
         label_error.setText("");
 
@@ -265,12 +245,25 @@ public class Controller {
             juliette = null;
         }
     }
+
+    /**
+     * Controls the buttons visibility
+     * @param bool
+     */
+    public void displayButtons(boolean bool){
+        button_start_simpleDijkstra.setVisible(bool);
+        button_start_dijkstraToEachOther.setVisible(bool);
+        button_start_DFS.setVisible(bool);
+        button_start_BFS.setVisible(bool);
+    }
+
     /**
      * Starts simulation where Romeo run the shortest path to the given destination
      * @param destination
      */
     public void romeoRunTheShortestPathToVertex(Vertex destination, EnumMode mode){
-        stopRomeo();
+        if (romeoThread != null)
+            romeoThread.interrupt();
 
         Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
         pathFound = romeo.initPathDijkstra(graph, romeoVertex, destination, mode);
@@ -278,10 +271,10 @@ public class Controller {
 
         if (pathFound) {
             romeoThread = new Thread(romeo);
-            startGlobalTimer();
+            TimersHandler.startGlobalTimer();
             romeoThread.start();
 
-            animateRomeo();
+            romeo.animate();
         }
         else {
             showAlertNoPathAvailable();
@@ -293,7 +286,7 @@ public class Controller {
      */
     public void romeoAndJulietteFindEachOther() {
         try {
-            stopMovements();
+            TimersHandler.stopMovements();
             Vertex romeoVertex = graph.getVertexByLocation(romeo.getX(), romeo.getY());
             Vertex julietteVertex = graph.getVertexByLocation(juliette.getX(), juliette.getY());
 
@@ -307,12 +300,12 @@ public class Controller {
                 romeoThread = new Thread(romeo);
                 julietteThread = new Thread(juliette);
 
-                startGlobalTimer();
+                TimersHandler.startGlobalTimer();
                 romeoThread.start();
                 julietteThread.start();
 
-                animateJuliette();
-                animateRomeo();
+                juliette.animate();
+                romeo.animate();
             }
             else {
                 showAlertNoPathAvailable();
@@ -322,28 +315,12 @@ public class Controller {
         }
     }
 
-    public void showAlertNoPathAvailable(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText("No path available");
-        alert.setContentText("We haven't found a correct path ! Parhaps should you think about removing few obstacles next time. 8)");
-        alert.show();
-    }
-
-    public static void showInstructions(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText("Romeo & Juliet");
-        alert.setContentText(EnumText.INSTRUCTIONS.toString());
-        alert.show();
-    }
-
     /**
      * Starts simulation where Romeo tries to find Juliette without knowing her exact position
      */
     public void romeoLooksForJuliette(EnumGraph enumGraph){
         try {
-            stopMovements();
+            TimersHandler.stopMovements();
             initBrowsingPathFrom(juliette, enumGraph);
 
             if (path == null || path.isEmpty()){
@@ -351,126 +328,13 @@ public class Controller {
                 return;
             }
 
-            startJulietteTimer();
-            startTimerBrowser();
+            TimersHandler.startJulietteTimer();
+            TimersHandler.startTimerBrowser(this);
 
-            animateJuliette();
-            animateRomeo();
+            juliette.animate();
+            romeo.animate();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Cancels both Romeo and Juliette
-     */
-    public void stopMovements(){
-        stopRomeo();
-        stopJuliette();
-    }
-
-    /**
-     * Handles cancelation of Romeo's animations and thread
-     */
-    public void stopRomeo() {
-        cancelTimer(romeoAnimation);
-
-        if (romeoThread != null)
-            romeoThread.interrupt();
-        romeoThread = null;
-    }
-
-    /**
-     * Handles cancelation of Juliette's animations and thread
-     */
-    public void stopJuliette() {
-        cancelTimer(julietteTimer, julietteAnimation);
-
-        if (julietteThread != null)
-            julietteThread.interrupt();
-        julietteThread = null;
-    }
-
-    /**
-     * Global timer which stops animation when Romeo and Juliette are done
-     */
-    public void startGlobalTimer() {
-        cancelTimer(timer);
-
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if (romeo.isActionDone() && juliette.isActionDone())
-                        cancelTimer(romeoAnimation, julietteAnimation, timer);
-                });
-            }
-        }, 0, 300);
-    }
-
-    /**
-     * Timer which handles the random walk of Juliette
-     */
-    public void startJulietteTimer() {
-        cancelTimer(julietteTimer);
-
-        julietteTimer = new Timer();
-        julietteTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if(!walkRandomly(juliette)) {
-                        cancelTimer(julietteTimer, julietteAnimation);
-                    }
-                });
-            }
-        }, 0, 300);
-    }
-
-    /**
-     * Global timer which handles the movements of Romeo trying to find Juliette
-     */
-    public void startTimerBrowser() {
-        cancelTimer(timerBrowser);
-
-        timerBrowser = new Timer();
-        timerBrowser.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if (areLocationsClose(romeo.getLocation(), juliette.getLocation())){
-                        stopJuliette();
-                        romeoRunTheShortestPathToVertex(graph.getVertexByLocation(juliette.getLocation()), EnumMode.NORMAL);
-                        cancelTimer(timerBrowser);
-                    }
-
-                    if (romeo.isActionDone()){
-                        Location location = path.popFirstAndRepushAtTheEnd().getLocation();
-
-                        if (areLocationsClose(graph.getVertexByLocation(romeo.getLocation()).getLocation(), location)){
-                            animateRomeo();
-                            romeo.setLocation(location);
-                        }
-                        else {
-                            romeoRunTheShortestPathToVertex(graph.getVertexByLocation(location), EnumMode.NORMAL);
-                        }
-                    }
-                });
-            }
-        }, 0, 300);
-    }
-
-    /**
-     * Handle timers cancelations
-     * @param timers
-     */
-    public void cancelTimer(Timer... timers){
-        for (Timer timer : timers) {
-            if (timer != null) {
-                timer.purge();
-                timer.cancel();
-            }
         }
     }
 
@@ -478,7 +342,7 @@ public class Controller {
      * Randomly moves a character up, down, left or right
      * @param character
      */
-    public boolean walkRandomly(Character character) {
+    public static boolean walkRandomly(Character character) {
         int x = character.getX();
         int y = character.getY();
 
@@ -513,16 +377,13 @@ public class Controller {
     }
 
     /**
-     * Returns the vertex between two other vertices
-     * @param v1
-     * @param v2
-     * @return
+     * Initializes a path to browse the graph
+     * @param character
      */
-    public Vertex getDestinationBetweenVertexes(Vertex v1, Vertex v2, EnumMode mode){
-        List<Vertex> path = graph.dijkstra(v1, v2, mode);
+    public void initBrowsingPathFrom(Character character, EnumGraph enumGraph) {
+        Vertex start = graph.getVertexByLocation(character.getLocation());
+        path = enumGraph.equals(EnumGraph.BFS) ? graph.browseBFS(start, mode) : graph.browseDFS(start, mode);
         startDebugTimer();
-
-        return path.get(path.size() / 2);
     }
 
     /**
@@ -531,10 +392,10 @@ public class Controller {
      * @param y
      * @return
      */
-    public boolean checkIfNoObstacles(int x, int y) {
-        for (MapElement obstacle : obstaclesList)
+    public static boolean checkIfNoObstacles(int x, int y) {
+        for (MapElement obstacle : graph.getObstaclesList())
             if (obstacle.getX() == x && obstacle.getY() == y ||
-                    x < 0 || y < 0 || x >= anchorPane.getWidth() || y >= anchorPane.getHeight())
+                    x < 0 || y < 0 || x >= graph.getPixelWidth() || y >= graph.getPixelHeight())
                 return false;
         return true;
     }
@@ -553,76 +414,15 @@ public class Controller {
      * @param location2
      * @return
      */
-    public boolean areLocationsClose(Location location1, Location location2) {
+    public static boolean areLocationsClose(Location location1, Location location2) {
         if ((location1.getX() == location2.getX() && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() + PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() - PACE && location1.getY() == location2.getY()) ||
                 (location1.getX() == location2.getX() && location1.getY() == location2.getY() + PACE) ||
-                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - PACE) /*||
-                (location1.getX() == location2.getX() + 2*PACE && location1.getY() == location2.getY()) ||
-                (location1.getX() == location2.getX() - 2*PACE && location1.getY() == location2.getY()) ||
-                (location1.getX() == location2.getX() && location1.getY() == location2.getY() + 2*PACE) ||
-                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - 2*PACE)*/) {
+                (location1.getX() == location2.getX() && location1.getY() == location2.getY() - PACE)) {
             return true;
         }
         return false;
-    }
-
-    /**
-     * COntrols romeo's animation
-     */
-    public void animateRomeo(){
-        if (romeoAnimation != null) {
-            romeoAnimation.purge();
-            romeoAnimation.cancel();
-        }
-
-        romeoAnimation = new AnimationHandler(romeo, EnumSprite.PANDA_SPRITE);
-        romeoAnimation.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> romeoAnimation.changeFrame());
-            }
-        }, 0, 150);
-    }
-
-    /**
-     * Controls juliette's animation
-     */
-    public void animateJuliette(){
-        if (julietteAnimation != null) {
-            julietteAnimation.purge();
-            julietteAnimation.cancel();
-        }
-
-        julietteAnimation = new AnimationHandler(juliette, EnumSprite.RACCOON_SPRITE);
-        julietteAnimation.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> julietteAnimation.changeFrame());
-            }
-        }, 0, 150);
-    }
-
-    /**
-     * Controls the buttons visibility
-     * @param bool
-     */
-    public void displayButtons(boolean bool){
-        button_start_simpleDijkstra.setVisible(bool);
-        button_start_dijkstraToEachOther.setVisible(bool);
-        button_start_DFS.setVisible(bool);
-        button_start_BFS.setVisible(bool);
-    }
-
-    /**
-     * Initializes a path to browse the graph
-     * @param character
-     */
-    public void initBrowsingPathFrom(Character character, EnumGraph enumGraph) {
-        Vertex start = graph.getVertexByLocation(character.getLocation());
-        path = enumGraph.equals(EnumGraph.BFS) ? graph.browseBFS(start, mode) : graph.browseDFS(start, mode);
-        startDebugTimer();
     }
 
     /**
@@ -641,6 +441,22 @@ public class Controller {
         }
     }
 
+    public static void showAlertNoPathAvailable(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("No path available");
+        alert.setContentText("We haven't found a correct path ! Parhaps should you think about removing few obstacles next time. 8)");
+        alert.show();
+    }
+
+    public static void showInstructions(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Romeo & Juliet");
+        alert.setContentText(EnumText.INSTRUCTIONS.toString());
+        alert.show();
+    }
+
     /**
      * Mark a location which will be colored by the debug timer
      * @param location
@@ -651,7 +467,7 @@ public class Controller {
         rectangle.setX(location.getX());
         rectangle.setY(location.getY());
         rectangle.setFill(color);
-        rectangle.setStroke(color.LIGHTGRAY);
+        rectangle.setStroke(Color.LIGHTGRAY);
         rectangle.setOpacity(0.5);
 
         locationsToMark.add(rectangle);
@@ -661,22 +477,22 @@ public class Controller {
      * Handle tiles coloration using the list of locations to mark
      */
     public void startDebugTimer() {
-        if (!mode.equals(EnumMode.DEBUG))
+        if (!Controller.mode.equals(EnumMode.DEBUG))
             return;
 
-        cancelTimer(debugTimer);
+        TimersHandler.cancelTimer(debugTimer);
 
         debugTimer = new Timer();
         debugTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    if (locationsToMark.isEmpty())
-                        cancelTimer(debugTimer);
+                    if (Controller.locationsToMark.isEmpty())
+                        TimersHandler.cancelTimer(debugTimer);
                     else {
-                        Rectangle rectangle = locationsToMark.pop();
+                        Rectangle rectangle = Controller.locationsToMark.pop();
                         anchorPane.getChildren().add(rectangle);
-                        markedLocations.add(rectangle);
+                        Controller.markedLocations.add(rectangle);
                     }
                 });
             }

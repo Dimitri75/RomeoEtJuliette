@@ -1,7 +1,7 @@
 package graph;
 
-import interfaces.ILocation;
 import element.Location;
+import interfaces.ILocation;
 
 import java.util.ArrayList;
 import java.util.HashMap;

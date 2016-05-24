@@ -1,14 +1,11 @@
 package utils;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import enumerations.EnumImage;
 import enumerations.EnumSprite;
 import list.CircularQueue;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import sun.font.FileFont;
 
-import java.io.File;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Random;
