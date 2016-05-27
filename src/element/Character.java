@@ -6,7 +6,9 @@ import enumerations.EnumPosition;
 import enumerations.EnumSprite;
 import graph.Graph;
 import graph.Vertex;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import sample.Controller;
 import sample.TimersHandler;
 import utils.AnimationHandler;
 

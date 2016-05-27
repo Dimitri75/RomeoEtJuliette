@@ -1,6 +1,6 @@
 package list;
 
-import java.util.*;
+import java.util.LinkedList;
 
 /**
  * Created by Dimitri on 01/11/2015.

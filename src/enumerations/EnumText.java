@@ -3,7 +3,7 @@ package enumerations;
 /**
  * Created by Dimitri on 06/03/2016.
  */
-public enum  EnumText {
+public enum EnumText {
     INSTRUCTIONS(
             "Options :\n" +
             "- Checkbox \"Display algorithm\" : Display how the algorithm works to find paths\n" +

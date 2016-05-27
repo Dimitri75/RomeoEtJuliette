@@ -2,9 +2,9 @@ package utils;
 
 import enumerations.EnumImage;
 import enumerations.EnumSprite;
-import list.CircularQueue;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import list.CircularQueue;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -63,7 +63,7 @@ public class ResourcesUtils {
         String path;
         for (int i = 1; i < 5; i++){
             path = uri + "/walk" + i + ".png";
-            circularQueue.add(new ImagePattern(new javafx.scene.image.Image(path)));
+            circularQueue.add(new ImagePattern(new Image(path)));
         }
 
 //        String url = getClass().getClassLoader().getResource(uri).getFile();
